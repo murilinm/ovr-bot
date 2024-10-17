@@ -20,39 +20,21 @@ def run_bot():
         try:
             user_message = str(message.content)
             if message.author == client.user or user_message[0] != "!": return
-            nopa = ""
-            noopa = ""
-
-            #-----------------!opa--------------------------------------
-            if "!opa" in user_message:
+            print(user_message[0], user_message[1])
+            #---------------!logrental--------------------
+            if "!logrental" in user_message:
                 try:
-                    nopa = int(user_message.split(" ")[1])
-                except Exception as e:
-                    print()
-
-                if nopa and str(type(nopa)) == "<class 'int'>":
-                    if nopa >= 500:
-                        return
-
-                    if "!opa" in user_message:
-                        await message.channel.send(str("opa " * nopa))
-
-            #---------------!oopa--------------------
-            if "!oopa" in user_message:
-                try:
-                    noopa = int(user_message.split(" ")[1])
+                    split = user_message.split(" ")
                 except Exception as err:
-                    print()
-                if noopa and str(type(noopa)) == "<class 'int'>":
-                    if noopa >= 50:
-                        return
+                    return print(err)
+                
+                contents = {
 
-                    if "!oopa" in user_message:
-                        await message.channel.send(str("o" * noopa + "opa"))
+                }
 
-            #-----------!opa--------------
-            if user_message == "!opa":
-                await message.channel.send(str("opa"))
+            #-----------hello--------------
+            if user_message == "!hello":
+                await message.channel.send(str("hello"))
 
             #-----------!cmds-------------
             if user_message == "!cmds":
