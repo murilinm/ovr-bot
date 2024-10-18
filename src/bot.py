@@ -1,5 +1,6 @@
 import discord
 import responses
+from discord.ext import commands
 
 async def send_message(message, user_message, is_private):
     try:
@@ -15,33 +16,15 @@ def run_bot():
     intents.message_content = True
     client = discord.Client(intents=intents)
 
-    @client.event
-    async def on_message(message):
-        try:
-            user_message = str(message.content)
-            if message.author == client.user or user_message[0] != "!": return
-            print(user_message[0], user_message[1])
-            #---------------!logrental--------------------
-            if "!logrental" in user_message:
-                try:
-                    split = user_message.split(" ")
-                except Exception as err:
-                    return print(err)
-                
-                contents = {
+    bot = commands.Bot(command_prefix='!', intents=intents)
 
-                }
+    @bot.command()
+    async def test(ctx, arg):
+        await ctx.send(arg)
 
-            #-----------hello--------------
-            if user_message == "!hello":
-                await message.channel.send(str("hello"))
 
-            #-----------!cmds-------------
-            if user_message == "!cmds":
-                await message.channel.send("'!opa'; '!opa' [número até 500]; '!oopa' [número até 50], '!cmds'")
 
-        except Exception as e:
-            print(e)
+
 
 
     client.run(TOKEN)
