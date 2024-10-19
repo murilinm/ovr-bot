@@ -25,6 +25,10 @@ def run_bot():
 
 
 
+@bot.command(name='hey')
+async def _hey(ctx, arg):
+    print("command")
+    await ctx.send('hii')
 
 
     client.run(TOKEN)
