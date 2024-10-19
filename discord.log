@@ -1,0 +1,2 @@
+[2024-10-19 13:21:06] [INFO    ] discord.client: logging in using static token
+[2024-10-19 13:21:07] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 4959e11e8f74e9ebacc56fb08151e924).
