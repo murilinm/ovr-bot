@@ -1,6 +1,8 @@
 # IMPORTS
 import discord
+import discord.ext
 from discord.ext import commands
+from discord.ext.commands import Bot
 from dpyConsole import Console
 import string
 
@@ -9,14 +11,16 @@ description = '''Oceanpoint Vacation Rentals bot commands, prefix "!"'''
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
-bot = commands.Bot(command_prefix='!', description=description, intents=intents)
+bot = Bot(command_prefix='!', description=description, intents=intents)
 my_console = Console(discord.Client(intents=intents))
+my_id = 787065576995553301
 
 # - ID TEST SERVER VARIABLES
 test_guild_id = 1291429430895575080
 test_tickets_cat_id = 1292466525998940244
 test_rentals_cat = 1291534971043057724
 test_support_channel_id = 1291890339342450841
+test_employee_role_id = 1291826425430806669
 
 # - ID MAIN SERVER VARIABLES
 main_guild_id = 1274894955663593492
@@ -28,15 +32,20 @@ async def on_ready():
     print('------')
 
 # SERVER COMMANDS
-@bot.command()
-async def openRental(ctx, contact: str, people_in_house: int, renting_time: str, house_type: str, pets_in_house: str):
-    name = ctx.author.name
+@bot.tree.command(name='openrental', description='Open a rental channel')
+async def openrental(ctx: discord.Interaction, contact_info: str, people_in_house: int, renting_time: str, house_type: str, pets_in_house: bool):
+    name = ctx.user.name
+    user = ctx.user
     guild = bot.get_guild(test_guild_id)
     category = guild.get_channel(1291534971043057724)
     overwrites = {
         #"https://discordpy.readthedocs.io/en/stable/api.html?highlight=channel#discord.Guild.create_text_channel"
+        guild.default_role: discord.PermissionOverwrite(read_messages=False),
+        user: discord.PermissionOverwrite(read_messages=True),
+        guild.get_role(test_employee_role_id): discord.PermissionOverwrite(read_messages=True)
     }
     channel = await category.create_text_channel(f'rental-{name[0]}{name[1]}{name[2]}{name[3]}', overwrites=overwrites)
+    await ctx.response.send_message(f'Click [here](https://discord.com/channels/{guild.id}/{channel.id}) to go to your rental channel', ephemeral=True)
 
 @bot.group()
 async def cool(ctx):
@@ -44,22 +53,36 @@ async def cool(ctx):
 
     In reality this just checks if a subcommand is being invoked.
     """
-    if ctx.invoked_subcommand is None and ctx.message.author.id == 787065576995553301:
+    if ctx.invoked_subcommand is None and ctx.message.author.id == my_id:
         await ctx.send(f'No, {ctx.subcommand_passed} is not cool')
 
 @cool.command(name='bot')
 async def _bot(ctx):
     """Is the bot cool?"""
-    if ctx.message.author.id == 787065576995553301:
+    if ctx.message.author.id == my_id:
         await ctx.send('Yes, the bot is cool.')
+
+@cool.command(name='murilo2.0')
+async def _bot(ctx):
+    if ctx.message.author.id == my_id:
+        await ctx.send('Yes, the creator is cool :sunglasses:')
+
+@bot.command()
+async def sync(ctx):
+    if ctx.message.author.id == my_id:
+        bot.tree.copy_global_to(guild=discord.Object(id=test_guild_id))
+        await bot.tree.sync(guild=discord.Object(id=test_guild_id))
+        await ctx.send(':white_check_mark:')
 
 # CONSOLE COMMANDS
 """
 @my_console.command()
-async def hey():
-    pass
+async def hey(user: discord.User):
+    print('hey')
+    await user.send('hey')
 """
+
 
 # STARTS CONSOLE AND BOT
 my_console.start()
-bot.run('MTI5MTQyODg5NzY5ODc0MjMyMw.GZD3Y5.Z-X9A6puKGPLV3gej1y1YwOtHhCqGRpZFw1wDY')
+bot.run('MTI5MTQyODg5NzY5ODc0MjMyMw.GZD3Y5.Z-X9A6puKGPLV3gej1y1YwOtHhCqGRpZFw1wDY', reconnect=True)
