@@ -39,7 +39,6 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
     guild = bot.get_guild(test_guild_id)
     category = guild.get_channel(1291534971043057724)
     overwrites = {
-        #"https://discordpy.readthedocs.io/en/stable/api.html?highlight=channel#discord.Guild.create_text_channel"
         guild.default_role: discord.PermissionOverwrite(read_messages=False),
         user: discord.PermissionOverwrite(read_messages=True),
         guild.get_role(test_employee_role_id): discord.PermissionOverwrite(read_messages=True)
