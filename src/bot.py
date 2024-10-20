@@ -1,33 +1,65 @@
+# IMPORTS
 import discord
-import logging
 from discord.ext import commands
-from discord import app_commands
 from dpyConsole import Console
+import string
 
-TOKEN = 'MTI5MTQyODg5NzY5ODc0MjMyMw.GZD3Y5.Z-X9A6puKGPLV3gej1y1YwOtHhCqGRpZFw1wDY'
+# VARIABLES
+description = '''Oceanpoint Vacation Rentals bot commands, prefix "!"'''
 intents = discord.Intents.default()
+intents.members = True
 intents.message_content = True
-client = discord.Client(intents=intents)
-handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
-bot = commands.Bot(command_prefix='!', intents=intents)
-my_console = Console(client)
-tree = app_commands.CommandTree(client)
+bot = commands.Bot(command_prefix='!', description=description, intents=intents)
+my_console = Console(discord.Client(intents=intents))
 
-@client.event
+# - ID TEST SERVER VARIABLES
+test_guild_id = 1291429430895575080
+test_tickets_cat_id = 1292466525998940244
+test_rentals_cat = 1291534971043057724
+test_support_channel_id = 1291890339342450841
+
+# - ID MAIN SERVER VARIABLES
+main_guild_id = 1274894955663593492
+
+# EVENTS
+@bot.event
 async def on_ready():
-    print("I'm Ready")
+    print(f'Logged in as {bot.user} (ID: {bot.user.id})')
+    print('------')
 
+# SERVER COMMANDS
+@bot.command()
+async def openRental(ctx, contact: str, people_in_house: int, renting_time: str, house_type: str, pets_in_house: str):
+    name = ctx.author.name
+    guild = bot.get_guild(test_guild_id)
+    category = guild.get_channel(1291534971043057724)
+    overwrites = {
+        #"https://discordpy.readthedocs.io/en/stable/api.html?highlight=channel#discord.Guild.create_text_channel"
+    }
+    channel = await category.create_text_channel(f'rental-{name[0]}{name[1]}{name[2]}{name[3]}', overwrites=overwrites)
+
+@bot.group()
+async def cool(ctx):
+    """Says if a user is cool.
+
+    In reality this just checks if a subcommand is being invoked.
+    """
+    if ctx.invoked_subcommand is None and ctx.message.author.id == 787065576995553301:
+        await ctx.send(f'No, {ctx.subcommand_passed} is not cool')
+
+@cool.command(name='bot')
+async def _bot(ctx):
+    """Is the bot cool?"""
+    if ctx.message.author.id == 787065576995553301:
+        await ctx.send('Yes, the bot is cool.')
+
+# CONSOLE COMMANDS
+"""
 @my_console.command()
 async def hey():
-    print("fooe")
-    bot.tree.copy_global_to(guild=discord.Object(id=int(1291429430895575080)))
-    print("foo")
-    await bot.tree.sync(guild=discord.Object(id=int(1291429430895575080)))
-    print("tree synced")
+    pass
+"""
 
-@bot.tree.command(name="test", description="s")
-async def test(interaction, arg1: str):
-    print('foo')
-
+# STARTS CONSOLE AND BOT
 my_console.start()
-client.run(TOKEN, log_handler=handler)
+bot.run('MTI5MTQyODg5NzY5ODc0MjMyMw.GZD3Y5.Z-X9A6puKGPLV3gej1y1YwOtHhCqGRpZFw1wDY')
