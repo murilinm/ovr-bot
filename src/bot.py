@@ -2,6 +2,7 @@
 from discord.ext.commands import Bot
 import discord
 from dpyConsole import Console
+import json
 
 # VARIABLES
 description = '''Oceanpoint Vacation Rentals bot commands, prefix "!"'''
@@ -11,47 +12,57 @@ intents.message_content = True
 bot = Bot(command_prefix='!', description=description, intents=intents)
 my_console = Console(bot)
 my_id = 787065576995553301
-openedRentals = {}
-openedTickets = {}
+rentalsPath = "static/openedRentals.json"
+ticketsPath = "static/openedTickets.json"
+with open(ticketsPath, "r") as file:
+    openedTickets = json.load(file)
 
 # - ID TEST SERVER VARIABLES
 test_guild_id = 1291429430895575080
 test_tickets_cat_id = 1292466525998940244
-test_rentals_cat = 1291534971043057724
+test_rentals_cat_id = 1291534971043057724
 test_support_channel_id = 1291890339342450841
 test_employee_role_id = 1291826425430806669
-guild = bot.get_guild(test_guild_id)
 
 # - ID MAIN SERVER VARIABLES
 main_guild_id = 1274894955663593492
 
-def prin(arg):
-    print(arg)
+# FUNCTIONS
+def update_json_file(file_path, new_data):
+    with open(file_path, "r") as file:
+        data = json.load(file)
 
-def prinStarting():
-    print(f'Logged in as {bot.user} (ID: {bot.user.id})')
-    print('------')
+    data.update(new_data)
+
+    with open(file_path, "w") as file:
+        json.dump(data, file, indent=4, separators=(',', ': '))
+    
+    print(f"Updated {file_path} with: {new_data}")
 
 # EVENTS
 @bot.event
 async def on_ready():
-    prinStarting()
+    print(f'Logged in as {bot.user} (ID: {bot.user.id})')
+    print('------')
 
 # SERVER COMMANDS
+# - SLASH COMMANDS
 @bot.tree.command(name='openrental', description='Open a rental channel')
 async def openrental(ctx: discord.Interaction, contact_info: str, people_in_house: int, renting_time: str, house_type: str, pets_in_house: bool):
+    with open(rentalsPath, "r") as file:
+        openedRentals = json.load(file)
     times = 0
     for i in openedRentals:
-        print(openedRentals[i], i)
         if openedRentals[i] == ctx.user.id:
             times += 1
 
     if times >= 3:
         return await ctx.response.send_message("You've reached the limit of rentals opened, please close a rental in order to open another one.", ephemeral=True)
-    
+
+    guild = await bot.fetch_guild(test_guild_id)
     name = ctx.user.name
     user = ctx.user
-    category = guild.get_channel(1291534971043057724)
+    category = await guild.fetch_channel(test_rentals_cat_id)
     overwrites = {
         guild.default_role: discord.PermissionOverwrite(read_messages=False),
         user: discord.PermissionOverwrite(read_messages=True),
@@ -60,8 +71,10 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
     
     channel = await category.create_text_channel(f'rental-{name[:4]}', overwrites=overwrites)
     await ctx.response.send_message(f'Click [here](https://discord.com/channels/{guild.id}/{channel.id}) to go to your rental channel', ephemeral=True)
-    openedRentals[channel.id] = user.id
-
+    #openedRentals[channel.id] = user.id
+    update_json_file(rentalsPath, {channel.id: user.id})
+    
+# - PREFIX COMMANDS
 @bot.group()
 async def cool(ctx):
     """Says if a user is cool."""
@@ -86,16 +99,17 @@ async def sync(ctx):
         await bot.tree.sync(guild=discord.Object(id=test_guild_id))
         await ctx.send(':white_check_mark:')
 
+# CONSOLE COMMANDS
 @my_console.command()
 async def hey(user: discord.User):
-    prin(f'hey {user.name}')
+    print(f'hey {user.name}')
 
 @my_console.command()
 async def prinn(arg):
     if arg == "openedRentals":
-        prin(openedRentals)
+        print(openedRentals)
     if arg == "openedTickets":
-        prin(openedTickets)
+        print(openedTickets)
 
 # STARTS BOT
 my_console.start()
