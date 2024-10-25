@@ -1,6 +1,7 @@
 # IMPORTS
 from discord.ext.commands import Bot
 import discord
+from discord.ui import Button, View
 from dpyConsole import Console
 import json
 
@@ -12,8 +13,8 @@ intents.message_content = True
 bot = Bot(command_prefix='!', description=description, intents=intents)
 my_console = Console(bot)
 my_id = 787065576995553301
-rentalsPath = "static/openedRentals.json"
-ticketsPath = "static/openedTickets.json"
+rentalsPath = "global_variables/openedRentals.json"
+ticketsPath = "global_variables/openedTickets.json"
 with open(ticketsPath, "r") as file:
     openedTickets = json.load(file)
 
@@ -59,6 +60,7 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
     if times >= 3:
         return await ctx.response.send_message("You've reached the limit of rentals opened, please close a rental in order to open another one.", ephemeral=True)
 
+    
     guild = await bot.fetch_guild(test_guild_id)
     name = ctx.user.name
     user = ctx.user
@@ -68,13 +70,25 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
         user: discord.PermissionOverwrite(read_messages=True),
         guild.get_role(test_employee_role_id): discord.PermissionOverwrite(read_messages=True)
     }
-    
-    channel = await category.create_text_channel(f'rental-{name[:4]}', overwrites=overwrites)
-    await ctx.response.send_message(f'Click [here](https://discord.com/channels/{guild.id}/{channel.id}) to go to your rental channel', ephemeral=True)
+
+    channel = await category.create_text_channel(f'rental-{name[:4]}-{times+1}', overwrites=overwrites)
+    channel_button = Button(label='Go to rental channel', url=f'https://discord.com/channels/{guild.id}/{channel.id}')
+    channel_button_view=View()
+    channel_button_view.add_item(channel_button)
+    await ctx.response.send_message(view=channel_button_view, ephemeral=True)
     #openedRentals[channel.id] = user.id
     update_json_file(rentalsPath, {channel.id: user.id})
+    channel.send('<@here>')
     
 # - PREFIX COMMANDS
+@bot.command()
+async def displayembed(ctx):
+    embed = discord.Embed(title="Rental | <@787065576995553301>", description="You've opened ") #,color=Hex code
+    embed.add_field(name="Name", value="you can make as much as fields you like to")
+    embed.set_footer(text="footer") #if you like to
+    embed.set_author(name='murilo2.0')
+    await ctx.send(embed=embed)
+
 @bot.group()
 async def cool(ctx):
     """Says if a user is cool."""
@@ -107,6 +121,8 @@ async def hey(user: discord.User):
 @my_console.command()
 async def prinn(arg):
     if arg == "openedRentals":
+        with open(rentalsPath, "r") as file:
+            openedRentals = json.load(file)
         print(openedRentals)
     if arg == "openedTickets":
         print(openedTickets)
