@@ -1,9 +1,11 @@
 # IMPORTS
 from discord.ext.commands import Bot
 import discord
-from discord.ui import Button, View
 from dpyConsole import Console
 import json
+from discord import app_commands
+from static import buttons, embeds
+from global_variables import global_variables
 
 # VARIABLES
 description = '''Oceanpoint Vacation Rentals bot commands, prefix "!"'''
@@ -29,16 +31,7 @@ test_employee_role_id = 1291826425430806669
 main_guild_id = 1274894955663593492
 
 # FUNCTIONS
-def update_json_file(file_path, new_data):
-    with open(file_path, "r") as file:
-        data = json.load(file)
 
-    data.update(new_data)
-
-    with open(file_path, "w") as file:
-        json.dump(data, file, indent=4, separators=(',', ': '))
-    
-    print(f"Updated {file_path} with: {new_data}")
 
 # EVENTS
 @bot.event
@@ -49,12 +42,15 @@ async def on_ready():
 # SERVER COMMANDS
 # - SLASH COMMANDS
 @bot.tree.command(name='openrental', description='Open a rental channel')
-async def openrental(ctx: discord.Interaction, contact_info: str, people_in_house: int, renting_time: str, house_type: str, pets_in_house: bool):
+@app_commands.describe(contact_info="Include your Roblox username and your roleplay name (Example: pizzaiolo7, Izzay).", people_in_house="How many people will be living in the house (numbers only).", renting_time="For how many time you will keep the house.", house_type="The house type.", pets_in_house="If there will be pets in the house or not.")
+@app_commands.choices(house_type=[app_commands.Choice(name="Small house", value=1), app_commands.Choice(name="Medium house", value=2), app_commands.Choice(name="Large house", value=3), app_commands.Choice(name="Single trailer", value=4), app_commands.Choice(name="Double trailer", value=5), app_commands.Choice(name="Log cabin", value=6)], pets_in_house=[app_commands.Choice(name="Yes", value=1), app_commands.Choice(name="No", value=2), app_commands.Choice(name="Not sure", value=3)])
+async def openrental(ctx: discord.Interaction, contact_info: str, people_in_house: int, renting_time: str, house_type: app_commands.Choice[int], pets_in_house: app_commands.Choice[int]):
     with open(rentalsPath, "r") as file:
         openedRentals = json.load(file)
+
     times = 0
     for i in openedRentals:
-        if openedRentals[i] == ctx.user.id:
+        if openedRentals[i]["id"] == ctx.user.id:
             times += 1
 
     if times >= 3:
@@ -72,23 +68,13 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
     }
 
     channel = await category.create_text_channel(f'rental-{name[:4]}-{times+1}', overwrites=overwrites)
-    channel_button = Button(label='Go to rental channel', url=f'https://discord.com/channels/{guild.id}/{channel.id}')
-    channel_button_view=View()
-    channel_button_view.add_item(channel_button)
-    await ctx.response.send_message(view=channel_button_view, ephemeral=True)
+    
+    await ctx.response.send_message(view=buttons.rental_channel_button(ctx.guild_id, channel.id), ephemeral=True)
     #openedRentals[channel.id] = user.id
-    update_json_file(rentalsPath, {channel.id: user.id})
-    channel.send('<@here>')
+    global_variables.update_json_file(rentalsPath, {channel.id: {"id": user.id, "is_active": "nil"}})
+    await channel.send(content='@here', embed=embeds.rental_channel_embed(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close_button())
     
 # - PREFIX COMMANDS
-@bot.command()
-async def displayembed(ctx):
-    embed = discord.Embed(title="Rental | <@787065576995553301>", description="You've opened ") #,color=Hex code
-    embed.add_field(name="Name", value="you can make as much as fields you like to")
-    embed.set_footer(text="footer") #if you like to
-    embed.set_author(name='murilo2.0')
-    await ctx.send(embed=embed)
-
 @bot.group()
 async def cool(ctx):
     """Says if a user is cool."""
