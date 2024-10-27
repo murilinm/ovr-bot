@@ -50,7 +50,7 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
 
     times = 0
     for i in openedRentals:
-        if openedRentals[i]["id"] == ctx.user.id:
+        if openedRentals[i]["renter_id"] == ctx.user.id:
             times += 1
 
     if times >= 3:
@@ -71,7 +71,7 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
     
     await ctx.response.send_message(view=buttons.rental_channel_button(ctx.guild_id, channel.id), ephemeral=True)
     #openedRentals[channel.id] = user.id
-    global_variables.update_json_file(rentalsPath, {channel.id: {"id": user.id, "is_active": "nil"}})
+    global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None}})
     await channel.send(content='@here', embed=embeds.rental_channel_embed(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close_button())
     
 # - PREFIX COMMANDS

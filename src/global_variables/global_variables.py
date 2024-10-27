@@ -18,9 +18,10 @@ def delete_key(file_path: str, key_to_remove: str):
     key_to_remove = str(key_to_remove)
     
     if key_to_remove in data:
+        key_data = data[key_to_remove]
         del data[key_to_remove]
         with open(file_path,'w') as f:
             json.dump(data,f,indent=4, separators=(',', ': '))
-        return print(f"Removed {key_to_remove} from {file_path}")
+        return print(f"Removed {key_to_remove} ({key_data}) from {file_path}")
     else:
         return print(f"Error on deleting global variable key: {key_to_remove} from {file_path} does not exist.")
