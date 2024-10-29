@@ -47,7 +47,7 @@ async def on_ready():
 async def openrental(ctx: discord.Interaction, contact_info: str, people_in_house: int, renting_time: str, house_type: app_commands.Choice[int], pets_in_house: app_commands.Choice[int]):
     with open(rentalsPath, "r") as file:
         openedRentals = json.load(file)
-
+    
     times = 0
     for i in openedRentals:
         if openedRentals[i]["renter_id"] == ctx.user.id:
@@ -73,7 +73,20 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
     #openedRentals[channel.id] = user.id
     global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None}})
     await channel.send(content='@here', embed=embeds.rental_channel_embed(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close_button())
-    
+
+@bot.tree.command(name="markas", description="Mark the rental as active/inactive")
+@app_commands.choices(status=[app_commands.Choice(name="Active", value=1), app_commands.Choice(name="Inactive", value=2)])
+async def markas(ctx: discord.Interaction, status: app_commands.Choice[int]):
+    with open(rentalsPath, "r") as file:
+        data = json.load(file)
+    if status.name == data[f"{ctx.channel_id}"]["is_active"]: return await ctx.response.send_message(content=f"Rental is already marked as {status.name.lower()}.", ephemeral=True)
+    openedRentals = data
+    openedRentals[f"{ctx.channel_id}"]["is_active"]=f"{status.name}"
+    data.update(openedRentals)
+    with open(rentalsPath, "w") as file:
+        json.dump(data, file, indent=4, separators=(',', ': '))
+    await ctx.response.send_message(content=f'Marked the rental as {status.name}', ephemeral=True)
+
 # - PREFIX COMMANDS
 @bot.group()
 async def cool(ctx):
@@ -98,6 +111,7 @@ async def sync(ctx):
         bot.tree.copy_global_to(guild=discord.Object(id=test_guild_id))
         await bot.tree.sync(guild=discord.Object(id=test_guild_id))
         await ctx.send(':white_check_mark:')
+        print("Successfully synced bot tree")
 
 # CONSOLE COMMANDS
 @my_console.command()
