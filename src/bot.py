@@ -4,7 +4,7 @@ import discord
 from dpyConsole import Console
 import json
 from discord import app_commands
-from static import buttons_, embeds
+from static import buttons, embeds
 from global_variables import global_variables
 
 # VARIABLES
@@ -37,9 +37,9 @@ def get_guild(guild_id):
 # EVENTS
 @bot.event
 async def on_ready():
-    bot.add_view(buttons_.ticket_close_())
-    bot.add_view(buttons_.ticket_general())
-    bot.add_view(buttons_.rental_close())
+    bot.add_view(buttons.ticket_close_())
+    bot.add_view(buttons.ticket_general())
+    bot.add_view(buttons.rental_close())
     print(f'Logged in as {bot.user} (ID: {bot.user.id})')
     print('------')
 
@@ -73,9 +73,9 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
 
     channel = await category.create_text_channel(f'rental-{name[:4]}-{times+1}', overwrites=overwrites)
     
-    await ctx.response.send_message(view=buttons_.rental_channel(ctx.guild_id, channel.id), ephemeral=True)
+    await ctx.response.send_message(view=buttons.rental_channel(ctx.guild_id, channel.id), ephemeral=True)
     global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None}})
-    await channel.send(content='@here', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons_.rental_close())
+    await channel.send(content='@here', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close())
 
 @bot.tree.command(name="markas", description="Mark the rental as active/inactive")
 @app_commands.choices(status=[app_commands.Choice(name="Active", value=1), app_commands.Choice(name="Inactive", value=2)])
