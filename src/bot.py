@@ -4,7 +4,7 @@ import discord
 from dpyConsole import Console
 import json
 from discord import app_commands
-from static import buttons, embeds
+from static import buttons_, embeds
 from global_variables import global_variables
 
 # VARIABLES
@@ -31,11 +31,15 @@ test_employee_role_id = 1291826425430806669
 main_guild_id = 1274894955663593492
 
 # FUNCTIONS
-
+def get_guild(guild_id):
+    return bot.fetch_guild(guild_id)
 
 # EVENTS
 @bot.event
 async def on_ready():
+    bot.add_view(buttons_.ticket_close_())
+    bot.add_view(buttons_.ticket_general())
+    bot.add_view(buttons_.rental_close())
     print(f'Logged in as {bot.user} (ID: {bot.user.id})')
     print('------')
 
@@ -69,10 +73,9 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
 
     channel = await category.create_text_channel(f'rental-{name[:4]}-{times+1}', overwrites=overwrites)
     
-    await ctx.response.send_message(view=buttons.rental_channel_button(ctx.guild_id, channel.id), ephemeral=True)
-    #openedRentals[channel.id] = user.id
+    await ctx.response.send_message(view=buttons_.rental_channel(ctx.guild_id, channel.id), ephemeral=True)
     global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None}})
-    await channel.send(content='@here', embed=embeds.rental_channel_embed(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close_button())
+    await channel.send(content='@here', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons_.rental_close())
 
 @bot.tree.command(name="markas", description="Mark the rental as active/inactive")
 @app_commands.choices(status=[app_commands.Choice(name="Active", value=1), app_commands.Choice(name="Inactive", value=2)])
@@ -80,12 +83,16 @@ async def markas(ctx: discord.Interaction, status: app_commands.Choice[int]):
     with open(rentalsPath, "r") as file:
         data = json.load(file)
     if status.name == data[f"{ctx.channel_id}"]["is_active"]: return await ctx.response.send_message(content=f"Rental is already marked as {status.name.lower()}.", ephemeral=True)
-    openedRentals = data
-    openedRentals[f"{ctx.channel_id}"]["is_active"]=f"{status.name}"
-    data.update(openedRentals)
-    with open(rentalsPath, "w") as file:
-        json.dump(data, file, indent=4, separators=(',', ': '))
+    global_variables.update_specific_data(rentalsPath, str(ctx.user.id), str(ctx.channel_id), "is_active")
     await ctx.response.send_message(content=f'Marked the rental as {status.name}', ephemeral=True)
+
+@bot.tree.command(name="claimrental", description="Claim this rental (meaning you will handle the rental).")
+async def claimrental(ctx):
+    with open(rentalsPath, "r") as file:
+        data = json.load(file)
+    if ctx.user.id == data[f"{ctx.channel_id}"]["employee_id"]: return await ctx.response.send_message(content=f"Rental is already claimed by {ctx.user.name}.", ephemeral=True)
+    global_variables.update_specific_data(rentalsPath, str(ctx.user.id), str(ctx.channel_id), "employee_id")
+    await ctx.response.send_message(content=f"{ctx.user.name} is now handling this rental.")
 
 # - PREFIX COMMANDS
 @bot.group()

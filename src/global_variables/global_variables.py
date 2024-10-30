@@ -25,3 +25,11 @@ def delete_key(file_path: str, key_to_remove: str):
         return print(f"Removed {key_to_remove} ({key_data}) from {file_path}")
     else:
         return print(f"Error on deleting global variable key: {key_to_remove} from {file_path} does not exist.")
+    
+def update_specific_data(fp: str, new_data, key1: str, key2: str):
+    with open(fp, "r") as f:
+        data = json.load(f)
+    data[str(key1)][str(key2)]=new_data
+    with open(fp, "w") as f:
+        json.dump(data, f, indent=4, separators=(',', ': '))
+    print(f"Updated {key2} from {key1} ({fp}) with {new_data}")
