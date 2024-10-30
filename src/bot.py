@@ -6,6 +6,7 @@ import json
 from discord import app_commands
 from static import buttons, embeds
 from global_variables import global_variables
+from discord.ui import View
 
 # VARIABLES
 description = '''Oceanpoint Vacation Rentals bot commands, prefix "!"'''
@@ -37,8 +38,10 @@ def get_guild(guild_id):
 # EVENTS
 @bot.event
 async def on_ready():
+    v=View(timeout=None)
+    v.add_item(buttons.ticket_general())
     bot.add_view(buttons.ticket_close_())
-    bot.add_view(buttons.ticket_general())
+    bot.add_view(v)
     bot.add_view(buttons.rental_close())
     print(f'Logged in as {bot.user} (ID: {bot.user.id})')
     print('------')
@@ -46,9 +49,9 @@ async def on_ready():
 # SERVER COMMANDS
 # - SLASH COMMANDS
 @bot.tree.command(name='openrental', description='Open a rental channel')
-@app_commands.describe(contact_info="Include your Roblox username and your roleplay name (Example: pizzaiolo7, Izzay).", people_in_house="How many people will be living in the house (numbers only).", renting_time="For how many time you will keep the house.", house_type="The house type.", pets_in_house="If there will be pets in the house or not.")
-@app_commands.choices(house_type=[app_commands.Choice(name="Small house", value=1), app_commands.Choice(name="Medium house", value=2), app_commands.Choice(name="Large house", value=3), app_commands.Choice(name="Single trailer", value=4), app_commands.Choice(name="Double trailer", value=5), app_commands.Choice(name="Log cabin", value=6)], pets_in_house=[app_commands.Choice(name="Yes", value=1), app_commands.Choice(name="No", value=2), app_commands.Choice(name="Not sure", value=3)])
-async def openrental(ctx: discord.Interaction, contact_info: str, people_in_house: int, renting_time: str, house_type: app_commands.Choice[int], pets_in_house: app_commands.Choice[int]):
+@app_commands.describe(contact_info="Include your Roblox username and your roleplay name (Example: pizzaiolo7, Izzay).", people_in_house="How many people will be living in the house (numbers only).", renting_time="For how many time you will keep the house.", house_type="The house type.", preferred_location="Preffered location of the house (ex. Housing Suburbs) (optional).", pets_in_house="If there will be pets in the house or not.")
+@app_commands.choices(preferred_location=[app_commands.Choice(name="Housing Suburbs", value=1), app_commands.Choice(name="Farms", value=2), app_commands.Choice(name="Sheriff's Office", value=3), app_commands.Choice(name="Springfield", value=4), app_commands.Choice(name="High Rock Park", value=5)], house_type=[app_commands.Choice(name="Small house", value=1), app_commands.Choice(name="Medium house", value=2), app_commands.Choice(name="Large house", value=3), app_commands.Choice(name="Single trailer", value=4), app_commands.Choice(name="Double trailer", value=5), app_commands.Choice(name="Log cabin", value=6)], pets_in_house=[app_commands.Choice(name="Yes", value=1), app_commands.Choice(name="No", value=2), app_commands.Choice(name="Not sure", value=3)])
+async def openrental(ctx: discord.Interaction, contact_info: str, people_in_house: int, renting_time: str, house_type: app_commands.Choice[int], preferred_location: app_commands.Choice[int], pets_in_house: app_commands.Choice[int]):
     with open(rentalsPath, "r") as file:
         openedRentals = json.load(file)
     
@@ -83,7 +86,7 @@ async def markas(ctx: discord.Interaction, status: app_commands.Choice[int]):
     with open(rentalsPath, "r") as file:
         data = json.load(file)
     if status.name == data[f"{ctx.channel_id}"]["is_active"]: return await ctx.response.send_message(content=f"Rental is already marked as {status.name.lower()}.", ephemeral=True)
-    global_variables.update_specific_data(rentalsPath, str(ctx.user.id), str(ctx.channel_id), "is_active")
+    global_variables.update_specific_data(rentalsPath, status.name, str(ctx.channel_id), "is_active")
     await ctx.response.send_message(content=f'Marked the rental as {status.name}', ephemeral=True)
 
 @bot.tree.command(name="claimrental", description="Claim this rental (meaning you will handle the rental).")
@@ -119,6 +122,17 @@ async def sync(ctx):
         await bot.tree.sync(guild=discord.Object(id=test_guild_id))
         await ctx.send(':white_check_mark:')
         print("Successfully synced bot tree")
+
+@bot.command()
+async def ticketembed(ctx):
+    if ctx.message.author.id == my_id:
+        embed = discord.Embed(description="<:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782>")
+        embed.set_footer(text="Oceanpoint Vacation Rentals")
+        v=View()
+        v.add_item(buttons.ticket_general())
+        v.add_item(buttons.ticket_management())
+        await ctx.send(embeds=[embed], view=v)
+        await ctx.message.delete()
 
 # CONSOLE COMMANDS
 @my_console.command()

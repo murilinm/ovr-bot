@@ -9,3 +9,8 @@ def general_ticket_channel(user_name):
     embed=discord.Embed(title=f"General ticket | {user_name}", description="You've opened a general ticket, please let us know what you need help with. If you opened this accidentally, please let us know.")
     embed.set_footer(text="Oceanpoint Vacation Rentals")
     return embed
+
+def management_ticket_channel(user_name):
+    embed=discord.Embed(title=f"Management ticket | {user_name}", description="You've opened a management ticket, please use the format below and wait for one of our staff to respond. If you opened this accidentally, please let us know.\n\n```Discord User:\nReason:\nEvidence:```")
+    embed.set_footer(text="Oceanpoint Vacation Rentals")
+    return embed
