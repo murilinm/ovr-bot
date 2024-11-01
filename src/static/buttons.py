@@ -4,9 +4,9 @@ from global_variables import global_variables
 from static import embeds
 import json
 
-# VARIABLES
-guild_id=1291429430895575080 # CHANGE THIS WHEN IMPORTING BOT TO MAIN SERVER
-tickets_cat_id=1292466525998940244 # CHANGE THIS WHEN IMPORTING BOT TO MAIN SERVER
+# VARIABLES (MAIN SERVER)
+guild_id=1274894955663593492
+tickets_cat_id=1291208418282962944
 
 def check_tickets(interaction):
     with open("global_variables/openedTickets.json", "r") as file:
@@ -52,15 +52,20 @@ def ticket_close_():
 
 
 def ticket_general():
-    button = Button(style=discord.ButtonStyle.secondary, label="General", custom_id="ticket_general_button")
+    button = Button(style=discord.ButtonStyle.secondary, label="General", custom_id="ticket_general_button", emoji='📑')
     async def callback(interaction):
         if check_tickets(interaction)>=1: return await interaction.response.send_message(content="You already have a ticket opened, please close it before opening another one", ephemeral=True)
         # VARIABLES
         category = discord.utils.get(interaction.guild.categories, id=tickets_cat_id)
+        employee_role=interaction.guild.get_role(1287519565915619360)
         overwrites = {
         interaction.guild.default_role: discord.PermissionOverwrite(read_messages=False),
         interaction.user: discord.PermissionOverwrite(read_messages=True),
-        #guild.get_role(ROLE THAT MANAGES TICKETS AND ABOVE): discord.PermissionOverwrite(read_messages=True)
+        interaction.guild.get_role(1287519565915619360): discord.PermissionOverwrite(read_messages=False), # EMPLOYEE
+        interaction.guild.get_role(1274907158982688820): discord.PermissionOverwrite(read_messages=False), # MEMBER
+        interaction.guild.get_role(1287521769422323784): discord.PermissionOverwrite(read_messages=True), # MASTER CONTRACTOR
+        interaction.guild.get_role(1274921886886789131): discord.PermissionOverwrite(read_messages=True), # HIGH RANK
+        interaction.guild.get_role(1274910503151472641): discord.PermissionOverwrite(read_messages=False), # UNVERIFIED
         }
 
         # CODE
@@ -77,15 +82,18 @@ def ticket_general():
     return button
 
 def ticket_management():
-    button=Button(style=discord.ButtonStyle.secondary, label="Management", custom_id="ticket_management_button")
+    button=Button(style=discord.ButtonStyle.secondary, label="Management", custom_id="ticket_management_button", emoji='⛔')
     async def callback(interaction):
-        if check_tickets(interaction)>=1: return await interaction.response.send_message(content="You already have a ticket opened, please close it before opening another one", ephemeral=True)
+        if check_tickets(interaction)>=1: return await interaction.response.send_message(content="You already have a ticket opened, please close it before opening another one.", ephemeral=True)
         # VARIABLES
         category = discord.utils.get(interaction.guild.categories, id=tickets_cat_id)
         overwrites = {
         interaction.guild.default_role: discord.PermissionOverwrite(read_messages=False),
         interaction.user: discord.PermissionOverwrite(read_messages=True),
-        #guild.get_role(ROLE THAT MANAGES TICKETS AND ABOVE): discord.PermissionOverwrite(read_messages=True)
+        interaction.guild.get_role(1287519565915619360): discord.PermissionOverwrite(read_messages=False), # EMPLOYEE
+        interaction.guild.get_role(1274907158982688820): discord.PermissionOverwrite(read_messages=False), # MEMBER
+        interaction.guild.get_role(1274921886886789131): discord.PermissionOverwrite(read_messages=True), # HIGH RANK
+        interaction.guild.get_role(1274910503151472641): discord.PermissionOverwrite(read_messages=False), # UNVERIFIED
         }
 
         # CODE

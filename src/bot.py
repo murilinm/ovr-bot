@@ -30,6 +30,8 @@ test_employee_role_id = 1291826425430806669
 
 # - ID MAIN SERVER VARIABLES
 main_guild_id = 1274894955663593492
+main_employee_role_id=1287519565915619360
+main_rentals_cat_id=1291088217113624616
 
 # FUNCTIONS
 def get_guild(guild_id):
@@ -40,6 +42,7 @@ def get_guild(guild_id):
 async def on_ready():
     v=View(timeout=None)
     v.add_item(buttons.ticket_general())
+    v.add_item(buttons.ticket_management())
     bot.add_view(buttons.ticket_close_())
     bot.add_view(v)
     bot.add_view(buttons.rental_close())
@@ -64,21 +67,20 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
         return await ctx.response.send_message("You've reached the limit of rentals opened, please close a rental in order to open another one.", ephemeral=True)
 
     
-    guild = await bot.fetch_guild(test_guild_id)
+    guild = await bot.fetch_guild(main_guild_id)
     name = ctx.user.name
     user = ctx.user
-    category = await guild.fetch_channel(test_rentals_cat_id)
+    category = await guild.fetch_channel(main_rentals_cat_id)
     overwrites = {
         guild.default_role: discord.PermissionOverwrite(read_messages=False),
         user: discord.PermissionOverwrite(read_messages=True),
-        guild.get_role(test_employee_role_id): discord.PermissionOverwrite(read_messages=True)
     }
 
     channel = await category.create_text_channel(f'rental-{name[:4]}-{times+1}', overwrites=overwrites)
     
     await ctx.response.send_message(view=buttons.rental_channel(ctx.guild_id, channel.id), ephemeral=True)
-    global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None}})
-    await channel.send(content='@here', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close())
+    global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None, "guild_id": ctx.guild_id}})
+    await channel.send(content='', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close())
 
 @bot.tree.command(name="markas", description="Mark the rental as active/inactive")
 @app_commands.choices(status=[app_commands.Choice(name="Active", value=1), app_commands.Choice(name="Inactive", value=2)])
@@ -118,16 +120,15 @@ async def _bot(ctx):
 @bot.command()
 async def sync(ctx):
     if ctx.message.author.id == my_id:
-        bot.tree.copy_global_to(guild=discord.Object(id=test_guild_id))
-        await bot.tree.sync(guild=discord.Object(id=test_guild_id))
+        bot.tree.copy_global_to(guild=discord.Object(id=main_guild_id))
+        await bot.tree.sync(guild=discord.Object(id=main_guild_id))
         await ctx.send(':white_check_mark:')
         print("Successfully synced bot tree")
 
 @bot.command()
 async def ticketembed(ctx):
     if ctx.message.author.id == my_id:
-        embed = discord.Embed(description="<:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782>")
-        embed.set_footer(text="Oceanpoint Vacation Rentals")
+        embed = discord.Embed(description="<:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782>")
         v=View()
         v.add_item(buttons.ticket_general())
         v.add_item(buttons.ticket_management())
