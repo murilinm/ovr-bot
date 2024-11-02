@@ -18,8 +18,6 @@ my_console = Console(bot)
 my_id = 787065576995553301
 rentalsPath = "global_variables/openedRentals.json"
 ticketsPath = "global_variables/openedTickets.json"
-with open(ticketsPath, "r") as file:
-    openedTickets = json.load(file)
 
 # - ID TEST SERVER VARIABLES
 test_guild_id = 1291429430895575080
@@ -71,16 +69,15 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
     name = ctx.user.name
     user = ctx.user
     category = await guild.fetch_channel(main_rentals_cat_id)
-    overwrites = {
-        guild.default_role: discord.PermissionOverwrite(read_messages=False),
-        user: discord.PermissionOverwrite(read_messages=True),
-    }
+    overwrites = category.overwrites
+    overwrites[user]=discord.PermissionOverwrite(read_messages=True)
+    print(type(overwrites))
 
     channel = await category.create_text_channel(f'rental-{name[:4]}-{times+1}', overwrites=overwrites)
     
     await ctx.response.send_message(view=buttons.rental_channel(ctx.guild_id, channel.id), ephemeral=True)
     global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None, "guild_id": ctx.guild_id}})
-    await channel.send(content='', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close())
+    await channel.send(content='@here', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close())
 
 @bot.tree.command(name="markas", description="Mark the rental as active/inactive")
 @app_commands.choices(status=[app_commands.Choice(name="Active", value=1), app_commands.Choice(name="Inactive", value=2)])
@@ -98,6 +95,14 @@ async def claimrental(ctx):
     if ctx.user.id == data[f"{ctx.channel_id}"]["employee_id"]: return await ctx.response.send_message(content=f"Rental is already claimed by {ctx.user.name}.", ephemeral=True)
     global_variables.update_specific_data(rentalsPath, str(ctx.user.id), str(ctx.channel_id), "employee_id")
     await ctx.response.send_message(content=f"{ctx.user.name} is now handling this rental.")
+
+@bot.tree.command(name="claimticket", description="Claim this ticket (meaning you will handle this ticket).")
+async def claimticket(ctx):
+    with open(ticketsPath, "r") as file:
+        data = json.load(file)
+    if ctx.user.id == data[f"{ctx.channel_id}"]["employee_id"]: return await ctx.response.send_message(content="Rental is already claimed by you.", ephemeral=True)
+    global_variables.update_specific_data(ticketsPath, str(ctx.user.id), str(ctx.channel_id), "employee_id")
+    await ctx.response.send_message(content=f"{ctx.user.name} is now handling this ticket.")
 
 # - PREFIX COMMANDS
 @bot.group()
@@ -120,7 +125,9 @@ async def _bot(ctx):
 @bot.command()
 async def sync(ctx):
     if ctx.message.author.id == my_id:
+        bot.tree.copy_global_to(guild=discord.Object(id=test_guild_id))
         bot.tree.copy_global_to(guild=discord.Object(id=main_guild_id))
+        await bot.tree.sync(guild=discord.Object(id=test_guild_id))
         await bot.tree.sync(guild=discord.Object(id=main_guild_id))
         await ctx.send(':white_check_mark:')
         print("Successfully synced bot tree")
@@ -139,15 +146,6 @@ async def ticketembed(ctx):
 @my_console.command()
 async def hey(user: discord.User):
     print(f'hey {user.name}')
-
-@my_console.command()
-async def prinn(arg):
-    if arg == "openedRentals":
-        with open(rentalsPath, "r") as file:
-            openedRentals = json.load(file)
-        print(openedRentals)
-    if arg == "openedTickets":
-        print(openedTickets)
 
 # STARTS BOT
 my_console.start()
