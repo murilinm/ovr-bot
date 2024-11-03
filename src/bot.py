@@ -46,7 +46,7 @@ async def on_ready():
     bot.add_view(buttons.rental_close())
     print(f'Logged in as {bot.user} (ID: {bot.user.id})')
     print('------')
-
+print("aaaaaaaaaaaaa")
 # SERVER COMMANDS
 # - SLASH COMMANDS
 @bot.tree.command(name='openrental', description='Open a rental channel')
