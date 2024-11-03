@@ -7,13 +7,14 @@ from discord import app_commands
 from static import buttons, embeds
 from global_variables import global_variables
 from discord.ui import View
+from discord.ext import commands
 
 # VARIABLES
 description = '''Oceanpoint Vacation Rentals bot commands, prefix "!"'''
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
-bot = Bot(command_prefix='!', description=description, intents=intents)
+bot = Bot(command_prefix='!', description=description, intents=intents, help_command=None)
 my_console = Console(bot)
 my_id = 787065576995553301
 rentalsPath = "global_variables/openedRentals.json"
@@ -30,6 +31,13 @@ test_employee_role_id = 1291826425430806669
 main_guild_id = 1274894955663593492
 main_employee_role_id=1287519565915619360
 main_rentals_cat_id=1291088217113624616
+
+# CLASSES
+#class helpCommand():
+#    async def helpCommand(self):
+#        destination = self.get_destination()
+#        await destination.send('```Oceanpoint Vacation Rentals bot commands, prefix "!"\n\n​No Category:\n\tcool\t\t\tSays if a user is cool.\n\thelp\t\t\tShows this message\n\nType !help command for more info on a command.\nYou can also type !help category for more info on a category.```')
+
 
 # FUNCTIONS
 def get_guild(guild_id):
@@ -146,6 +154,10 @@ async def ticketembed(ctx):
 async def ping(ctx):
     if ctx.message.author.id==my_id:
         await ctx.send(f'Pong! {round(bot.latency * 1000)}ms.')
+
+@bot.command(name='help', description='Oceanpoint Vacation Rentals help command.')
+async def _help(ctx):
+    await ctx.send(content="""```Oceanpoint Vacation Rentals bot commands, prefix "!"\n\n​Prefix commands ("!"):\n\thelp\t\t\tShows this message.\n\nSlash commands:\n\t/openrental\n\t\tOpens a rental channel (all fields required).\n\nOther bot functionalities:\n\t#📡┃support\n\t\tUse the buttons below the embed to open a general ticket or a management ticket.\n\nIf you need more help on a command, or found an error, don't exitate to open a general ticket on the #📡┃support channel.```""")
 
 # CONSOLE COMMANDS
 @my_console.command()
