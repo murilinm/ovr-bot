@@ -46,7 +46,7 @@ async def on_ready():
     bot.add_view(buttons.rental_close())
     print(f'Logged in as {bot.user} (ID: {bot.user.id})')
     print('------')
-print("aaaaaaaaaaaaa")
+
 # SERVER COMMANDS
 # - SLASH COMMANDS
 @bot.tree.command(name='openrental', description='Open a rental channel')
@@ -146,6 +146,20 @@ async def ticketembed(ctx):
 @my_console.command()
 async def hey(user: discord.User):
     print(f'hey {user.name}')
+
+@my_console.command()
+async def ors():
+    with open(rentalsPath, "r") as file:
+        print(file)
+
+@my_console.command()
+async def ots():
+    with open(ticketsPath, "r") as file:
+        print(file)
+
+@my_console.command()
+async def ping():
+    print('Pong! {0}'.format(round(bot.latency, 1)))
 
 # STARTS BOT
 my_console.start()
