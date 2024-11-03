@@ -142,6 +142,11 @@ async def ticketembed(ctx):
         await ctx.send(embeds=[embed], view=v)
         await ctx.message.delete()
 
+@bot.command()
+async def ping(ctx):
+    if ctx.message.author.id==my_id:
+        await ctx.send(f'Pong! {round(bot.latency * 1000)}ms.')
+
 # CONSOLE COMMANDS
 @my_console.command()
 async def hey(user: discord.User):
@@ -150,16 +155,16 @@ async def hey(user: discord.User):
 @my_console.command()
 async def ors():
     with open(rentalsPath, "r") as file:
-        print(file)
+        print(json.load(file))
 
 @my_console.command()
 async def ots():
     with open(ticketsPath, "r") as file:
-        print(file)
+        print(json.load(file))
 
 @my_console.command()
 async def ping():
-    print('Pong! {0}'.format(round(bot.latency, 1)))
+    print(f'Pong! {round(bot.latency * 1000)}ms')
 
 # STARTS BOT
 my_console.start()
