@@ -5,3 +5,10 @@
 2024-11-04 22:46:14,917 - INFO - logging in using static token
 2024-11-04 22:46:15,354 - INFO - Shard ID None has connected to Gateway (Session ID: f1b0a93ce558a42af59fd3e63c07d8d8).
 2024-11-04 22:46:17,409 - INFO - Bot ready.
+2024-11-04 22:49:31,440 - INFO - NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-04 22:49:31,781 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-04 22:49:31,783 - INFO - Console is ready and is listening for commands
+
+2024-11-04 22:49:31,783 - INFO - logging in using static token
+2024-11-04 22:49:32,348 - INFO - Shard ID None has connected to Gateway (Session ID: 392d71ffe5e7440e3a4e0cbc69657d23).
+2024-11-04 22:49:34,369 - INFO - Bot ready.
