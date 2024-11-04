@@ -1,4 +1,5 @@
 import json
+from logs import log
 
 def update_json_file(file_path: str, new_data):
     with open(file_path, "r") as file:
@@ -10,6 +11,8 @@ def update_json_file(file_path: str, new_data):
         json.dump(data, file, indent=4, separators=(',', ': '))
     
     print(f"Updated {file_path} with: {new_data}")
+    log.new_object(fp=file_path, new_data=new_data)
+
 
 def delete_key(file_path: str, key_to_remove: str):
     with open(file_path, "r") as file:
@@ -22,10 +25,12 @@ def delete_key(file_path: str, key_to_remove: str):
         del data[key_to_remove]
         with open(file_path,'w') as f:
             json.dump(data,f,indent=4, separators=(',', ': '))
+            log.object_deleted(fp=file_path, key=key_to_remove, key_data=key_data)
         return print(f"Removed {key_to_remove} ({key_data}) from {file_path}")
     else:
         return print(f"Error on deleting global variable key: {key_to_remove} from {file_path} does not exist.")
-    
+
+
 def update_specific_data(fp: str, new_data, key1: str, key2: str):
     with open(fp, "r") as f:
         data = json.load(f)

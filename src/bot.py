@@ -1,4 +1,7 @@
 # IMPORTS
+import logging
+logging.basicConfig(level=logging.INFO, filename="ovr-bot.log", format="%(asctime)s - %(levelname)s - %(message)s")
+logging.info("NEW SESSION --------------------------------------------------------------------------------------------")
 from discord.ext.commands import Bot
 import discord
 from dpyConsole import Console
@@ -54,6 +57,8 @@ async def on_ready():
     bot.add_view(buttons.rental_close())
     print(f'Logged in as {bot.user} (ID: {bot.user.id})')
     print('------')
+    logging.info("Bot ready.")
+    
 
 # SERVER COMMANDS
 # - SLASH COMMANDS
