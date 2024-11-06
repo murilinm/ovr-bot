@@ -12,3 +12,125 @@
 2024-11-04 22:49:31,783 - INFO - logging in using static token
 2024-11-04 22:49:32,348 - INFO - Shard ID None has connected to Gateway (Session ID: 392d71ffe5e7440e3a4e0cbc69657d23).
 2024-11-04 22:49:34,369 - INFO - Bot ready.
+2024-11-05 00:24:24,539 - ERROR - Attempting a reconnect in 0.73s
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/client.py", line 667, in connect
+    await self.ws.poll_event()
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/gateway.py", line 648, in poll_event
+    raise ConnectionClosed(self.socket, shard_id=self.shard_id, code=code) from None
+discord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
+2024-11-05 00:24:25,511 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 00:52:37,625 - ERROR - Attempting a reconnect in 1.49s
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/client.py", line 667, in connect
+    await self.ws.poll_event()
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/gateway.py", line 648, in poll_event
+    raise ConnectionClosed(self.socket, shard_id=self.shard_id, code=code) from None
+discord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
+2024-11-05 00:52:39,248 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 02:31:03,831 - ERROR - Attempting a reconnect in 1.01s
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/client.py", line 667, in connect
+    await self.ws.poll_event()
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/gateway.py", line 648, in poll_event
+    raise ConnectionClosed(self.socket, shard_id=self.shard_id, code=code) from None
+discord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
+2024-11-05 02:31:05,017 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 04:21:13,614 - ERROR - Attempting a reconnect in 0.60s
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/client.py", line 667, in connect
+    await self.ws.poll_event()
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/gateway.py", line 648, in poll_event
+    raise ConnectionClosed(self.socket, shard_id=self.shard_id, code=code) from None
+discord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
+2024-11-05 04:21:14,329 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 04:56:43,259 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 06:09:17,706 - ERROR - Attempting a reconnect in 1.06s
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/client.py", line 667, in connect
+    await self.ws.poll_event()
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/gateway.py", line 648, in poll_event
+    raise ConnectionClosed(self.socket, shard_id=self.shard_id, code=code) from None
+discord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
+2024-11-05 06:09:18,905 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 06:10:34,801 - ERROR - Attempting a reconnect in 1.03s
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/client.py", line 667, in connect
+    await self.ws.poll_event()
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/gateway.py", line 648, in poll_event
+    raise ConnectionClosed(self.socket, shard_id=self.shard_id, code=code) from None
+discord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
+2024-11-05 06:10:35,949 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 06:30:39,954 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 08:19:13,938 - ERROR - Attempting a reconnect in 1.36s
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/client.py", line 667, in connect
+    await self.ws.poll_event()
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/gateway.py", line 648, in poll_event
+    raise ConnectionClosed(self.socket, shard_id=self.shard_id, code=code) from None
+discord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
+2024-11-05 08:19:15,419 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 08:29:28,674 - ERROR - Attempting a reconnect in 0.25s
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/client.py", line 667, in connect
+    await self.ws.poll_event()
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/gateway.py", line 648, in poll_event
+    raise ConnectionClosed(self.socket, shard_id=self.shard_id, code=code) from None
+discord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
+2024-11-05 08:29:29,037 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 10:55:07,268 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 11:16:51,064 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 12:06:45,800 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 12:48:58,280 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 14:32:56,868 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 17:13:08,422 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 17:34:26,723 - ERROR - Attempting a reconnect in 1.19s
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/client.py", line 667, in connect
+    await self.ws.poll_event()
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/gateway.py", line 648, in poll_event
+    raise ConnectionClosed(self.socket, shard_id=self.shard_id, code=code) from None
+discord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
+2024-11-05 17:34:28,057 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 18:30:05,819 - ERROR - Attempting a reconnect in 1.88s
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/client.py", line 667, in connect
+    await self.ws.poll_event()
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/gateway.py", line 648, in poll_event
+    raise ConnectionClosed(self.socket, shard_id=self.shard_id, code=code) from None
+discord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
+2024-11-05 18:30:07,856 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 19:53:19,310 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-05 20:47:05,425 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-06 00:15:26,410 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-06 02:35:59,426 - ERROR - Attempting a reconnect in 1.87s
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/client.py", line 667, in connect
+    await self.ws.poll_event()
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/gateway.py", line 648, in poll_event
+    raise ConnectionClosed(self.socket, shard_id=self.shard_id, code=code) from None
+discord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
+2024-11-06 02:36:01,422 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-06 02:40:30,467 - ERROR - Attempting a reconnect in 1.38s
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/client.py", line 667, in connect
+    await self.ws.poll_event()
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/gateway.py", line 648, in poll_event
+    raise ConnectionClosed(self.socket, shard_id=self.shard_id, code=code) from None
+discord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
+2024-11-06 02:40:31,971 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-06 03:06:09,887 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-06 05:11:00,298 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-06 07:23:37,827 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-06 09:04:07,209 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-06 11:48:12,074 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-06 11:50:58,309 - ERROR - Attempting a reconnect in 0.97s
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/client.py", line 667, in connect
+    await self.ws.poll_event()
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/discord/gateway.py", line 648, in poll_event
+    raise ConnectionClosed(self.socket, shard_id=self.shard_id, code=code) from None
+discord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
+2024-11-06 11:50:59,405 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-06 13:48:02,701 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
+2024-11-06 16:26:36,517 - INFO - Shard ID None has successfully RESUMED session 392d71ffe5e7440e3a4e0cbc69657d23.
