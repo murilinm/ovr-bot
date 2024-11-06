@@ -88,7 +88,7 @@ def ticket_general():
         v=View()
         v.add_item(channel_button)
         await interaction.response.send_message(view=v, ephemeral=True)
-        await channel.send(content='@here', embed=embeds.general_ticket_channel(interaction.user.name), view=ticket_close_())
+        await channel.send(content='@her', embed=embeds.general_ticket_channel(interaction.user.name), view=ticket_close_())
         global_variables.update_json_file("global_variables/openedTickets.json", {str(channel.id): {"creator_id": interaction.user.id, "employee_id": None, "type": "gen"}})
 
     button.callback=callback
@@ -109,10 +109,9 @@ def ticket_management():
         v=View()
         v.add_item(channel_button)
         await interaction.response.send_message(view=v, ephemeral=True)
-        await channel.send(content='@here', embed=embeds.management_ticket_channel(interaction.user.name), view=ticket_close_())
+        await channel.send(content='@her', embed=embeds.management_ticket_channel(interaction.user.name), view=ticket_close_())
         global_variables.update_json_file("global_variables/openedTickets.json", {str(channel.id): {"creator_id": interaction.user.id, "employee_id": None, "type": "mana"}})
 
     button.callback=callback
 
     return button
-

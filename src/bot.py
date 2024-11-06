@@ -11,6 +11,8 @@ from static import buttons, embeds
 from global_variables import global_variables
 from discord.ui import View
 from discord.ext import commands
+import os
+from dotenv import load_dotenv
 
 # VARIABLES
 description = '''Oceanpoint Vacation Rentals bot commands, prefix "!"'''
@@ -22,6 +24,7 @@ my_console = Console(bot)
 my_id = 787065576995553301
 rentalsPath = "global_variables/openedRentals.json"
 ticketsPath = "global_variables/openedTickets.json"
+load_dotenv()
 
 # - ID TEST SERVER VARIABLES
 test_guild_id = 1291429430895575080
@@ -106,13 +109,12 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
     category = await guild.fetch_channel(main_rentals_cat_id)
     overwrites = category.overwrites
     overwrites[user]=discord.PermissionOverwrite(read_messages=True)
-    print(type(overwrites))
 
     channel = await category.create_text_channel(f'rental-{name[:4]}-{times+1}', overwrites=overwrites)
     
     await ctx.response.send_message(view=buttons.rental_channel(ctx.guild_id, channel.id), ephemeral=True)
-    global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None, "guild_id": ctx.guild_id}})
-    await channel.send(content='@here', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close())
+    global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None, "guild_id": ctx.guild_id}},)
+    await channel.send(content='@her', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close())
 
 @bot.tree.command(name="markas", description="Mark the rental as active/inactive")
 @app_commands.choices(status=[app_commands.Choice(name="Active", value=1), app_commands.Choice(name="Inactive", value=2)])
@@ -127,6 +129,7 @@ async def markas(ctx: discord.Interaction, status: app_commands.Choice[int]):
 async def claimrental(ctx):
     with open(rentalsPath, "r") as file:
         data = json.load(file)
+        if not ctx.channel_id in data: return await ctx.response.send_message(content="**Rental not found, if you think this is an error, open a general ticket.**", ephemeral=True)
     if ctx.user.id == data[f"{ctx.channel_id}"]["employee_id"]: return await ctx.response.send_message(content=f"Rental is already claimed by {ctx.user.name}.", ephemeral=True)
     global_variables.update_specific_data(rentalsPath, str(ctx.user.id), str(ctx.channel_id), "employee_id")
     await ctx.response.send_message(content=f"{ctx.user.name} is now handling this rental.")
@@ -135,6 +138,7 @@ async def claimrental(ctx):
 async def claimticket(ctx):
     with open(ticketsPath, "r") as file:
         data = json.load(file)
+        if not str(ctx.channel_id) in data: return await ctx.response.send_message(content="**Ticket not found, if you think this is an error, open a general ticket.**", ephemeral=True)
     if ctx.user.id == data[f"{ctx.channel_id}"]["employee_id"]: return await ctx.response.send_message(content="Rental is already claimed by you.", ephemeral=True)
     global_variables.update_specific_data(ticketsPath, str(ctx.user.id), str(ctx.channel_id), "employee_id")
     await ctx.response.send_message(content=f"{ctx.user.name} is now handling this ticket.")
@@ -210,4 +214,4 @@ async def ping():
 
 # STARTS BOT
 my_console.start()
-bot.run('MTI5MTQyODg5NzY5ODc0MjMyMw.GZD3Y5.Z-X9A6puKGPLV3gej1y1YwOtHhCqGRpZFw1wDY', reconnect=True)
+bot.run(os.getenv("TOKEN"), reconnect=True)

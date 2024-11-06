@@ -1,0 +1,347 @@
+2024-11-06 20:14:19,458 - INFO - NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-06 20:14:33,863 - INFO - NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-06 20:14:34,049 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-06 20:14:34,050 - INFO - Console is ready and is listening for commands
+
+2024-11-06 20:14:34,051 - INFO - logging in using static token
+2024-11-06 20:14:34,453 - INFO - Shard ID None has connected to Gateway (Session ID: 579c141da8e535584854c950e8b88568).
+2024-11-06 20:14:36,461 - INFO - Bot ready.
+2024-11-06 20:14:57,901 - ERROR - Task exception was never retrieved
+future: <Task finished name='CommandTree-invoker' coro=<CommandTree._from_interaction.<locals>.wrapper() done, defined at /usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py:1149> exception=HTTPException('400 Bad Request (error code: 40060): Interaction has already been acknowledged.')>
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 113, in openrental
+    await ctx.response.send_message(view=buttons.rental_channel(ctx.guild_id, channel.id), ephemeral=True)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/interactions.py", line 855, in send_message
+    await adapter.create_interaction_response(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/webhook/async_.py", line 221, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'openrental' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1151, in wrapper
+    await self._call(interaction)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1314, in _call
+    await self.on_error(interaction, e)
+  File "/workspaces/ovr-bot/src/bot.py", line 79, in on_app_command_error
+    await interaction.response.send_message("**An error occurred, please try again in some moments. If this message keeps showing, please open a general ticket in <#1274925768090320987>.**", ephemeral=True)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/interactions.py", line 855, in send_message
+    await adapter.create_interaction_response(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/webhook/async_.py", line 223, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 400 Bad Request (error code: 40060): Interaction has already been acknowledged.
+2024-11-06 20:15:05,261 - ERROR - Command 'claimrental' raised an exception: KeyError: '1303814906918731846'
+2024-11-06 20:18:41,131 - INFO - NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-06 20:18:41,312 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-06 20:18:41,313 - INFO - Console is ready and is listening for commands
+
+2024-11-06 20:18:41,313 - INFO - logging in using static token
+2024-11-06 20:18:41,738 - INFO - Shard ID None has connected to Gateway (Session ID: 3b6df3c10d8de088d88d2c4057e7e708).
+2024-11-06 20:18:43,746 - INFO - Bot ready.
+2024-11-06 20:18:55,642 - INFO - NEW OBJECT ON global_variables/openedRentals.json: DATA {1303815904152391712: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}}
+2024-11-06 20:19:02,253 - INFO - OBJECT UPDATED ON global_variables/openedRentals.json: KEY 1303815904152391712; OLD DATA: None; NEW DATA: 787065576995553301
+2024-11-06 20:19:06,771 - ERROR - Task exception was never retrieved
+future: <Task finished name='CommandTree-invoker' coro=<CommandTree._from_interaction.<locals>.wrapper() done, defined at /usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py:1149> exception=NotFound('404 Not Found (error code: 10062): Unknown interaction')>
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 138, in claimticket
+    if ctx.user.id == data[f"{ctx.channel_id}"]["employee_id"]: return await ctx.response.send_message(content="Rental is already claimed by you.", ephemeral=True)
+                      ~~~~^^^^^^^^^^^^^^^^^^^^^
+KeyError: '1303815904152391712'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'claimticket' raised an exception: KeyError: '1303815904152391712'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1151, in wrapper
+    await self._call(interaction)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1314, in _call
+    await self.on_error(interaction, e)
+  File "/workspaces/ovr-bot/src/bot.py", line 79, in on_app_command_error
+    await interaction.response.send_message("**An error occurred, please try again in some moments. If this message keeps showing, please open a general ticket in <#1274925768090320987>.**", ephemeral=True)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/interactions.py", line 855, in send_message
+    await adapter.create_interaction_response(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/webhook/async_.py", line 221, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2024-11-06 20:22:19,475 - INFO - NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-06 20:22:19,666 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-06 20:22:19,667 - INFO - Console is ready and is listening for commands
+
+2024-11-06 20:22:19,667 - INFO - logging in using static token
+2024-11-06 20:22:20,221 - INFO - Shard ID None has connected to Gateway (Session ID: 17b7b63989667be96444383b31e1f991).
+2024-11-06 20:22:22,228 - INFO - Bot ready.
+2024-11-06 20:22:55,094 - INFO - NEW OBJECT ON global_variables/openedRentals.json: DATA {1303816909103300660: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}}
+2024-11-06 20:23:16,930 - ERROR - Ignoring exception in view <View timeout=None children=1> for item <Button style=<ButtonStyle.danger: 4> url=None disabled=False label='Close' emoji=<PartialEmoji animated=False name='🔒' id=None> row=None sku_id=None>
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/ui/view.py", line 430, in _scheduled_task
+    await item.callback(interaction)
+  File "/workspaces/ovr-bot/src/static/buttons.py", line 54, in callback
+    global_variables.delete_key("global_variables/openedRentals.json", interaction.channel_id)
+  File "/workspaces/ovr-bot/src/global_variables/global_variables.py", line 41, in delete_key
+    log.object_deleted(file_path=file_path, key=key_to_remove, key_data=key_data)
+    ^^^^^^^^^^^^^^^^^^
+AttributeError: module 'logs.log' has no attribute 'object_deleted'
+2024-11-06 20:23:55,383 - INFO - NEW OBJECT ON global_variables/openedRentals.json: DATA {1303817161529098270: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}}
+2024-11-06 20:24:49,278 - ERROR - Task exception was never retrieved
+future: <Task finished name='CommandTree-invoker' coro=<CommandTree._from_interaction.<locals>.wrapper() done, defined at /usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py:1149> exception=HTTPException('400 Bad Request (error code: 40060): Interaction has already been acknowledged.')>
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 139, in claimticket
+    if ctx.user.id == data[f"{ctx.channel_id}"]["employee_id"]: return await ctx.response.send_message(content="Rental is already claimed by you.", ephemeral=True)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/interactions.py", line 855, in send_message
+    await adapter.create_interaction_response(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/webhook/async_.py", line 223, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 400 Bad Request (error code: 40060): Interaction has already been acknowledged.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'claimticket' raised an exception: HTTPException: 400 Bad Request (error code: 40060): Interaction has already been acknowledged.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1151, in wrapper
+    await self._call(interaction)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1314, in _call
+    await self.on_error(interaction, e)
+  File "/workspaces/ovr-bot/src/bot.py", line 79, in on_app_command_error
+    await interaction.response.send_message("**An error occurred, please try again in some moments. If this message keeps showing, please open a general ticket in <#1274925768090320987>.**", ephemeral=True)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/interactions.py", line 855, in send_message
+    await adapter.create_interaction_response(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/webhook/async_.py", line 223, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 400 Bad Request (error code: 40060): Interaction has already been acknowledged.
+2024-11-06 20:24:51,814 - ERROR - Task exception was never retrieved
+future: <Task finished name='CommandTree-invoker' coro=<CommandTree._from_interaction.<locals>.wrapper() done, defined at /usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py:1149> exception=HTTPException('400 Bad Request (error code: 40060): Interaction has already been acknowledged.')>
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 130, in claimrental
+    if ctx.user.id == data[f"{ctx.channel_id}"]["employee_id"]: return await ctx.response.send_message(content=f"Rental is already claimed by {ctx.user.name}.", ephemeral=True)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/interactions.py", line 855, in send_message
+    await adapter.create_interaction_response(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/webhook/async_.py", line 223, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 400 Bad Request (error code: 40060): Interaction has already been acknowledged.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'claimrental' raised an exception: HTTPException: 400 Bad Request (error code: 40060): Interaction has already been acknowledged.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1151, in wrapper
+    await self._call(interaction)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1314, in _call
+    await self.on_error(interaction, e)
+  File "/workspaces/ovr-bot/src/bot.py", line 79, in on_app_command_error
+    await interaction.response.send_message("**An error occurred, please try again in some moments. If this message keeps showing, please open a general ticket in <#1274925768090320987>.**", ephemeral=True)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/interactions.py", line 855, in send_message
+    await adapter.create_interaction_response(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/webhook/async_.py", line 223, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 400 Bad Request (error code: 40060): Interaction has already been acknowledged.
+2024-11-06 20:25:52,684 - INFO - NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-06 20:25:52,879 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-06 20:25:52,880 - INFO - Console is ready and is listening for commands
+
+2024-11-06 20:25:52,881 - INFO - logging in using static token
+2024-11-06 20:25:53,369 - INFO - Shard ID None has connected to Gateway (Session ID: b151c57593a077948ae6fc44dc6aad5a).
+2024-11-06 20:25:55,389 - INFO - Bot ready.
+2024-11-06 20:25:56,513 - INFO - OBJECT DELETED ON global_variables/openedRentals.json: KEY 1303817161529098270; DATA: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}
+2024-11-06 20:26:09,679 - INFO - NEW OBJECT ON global_variables/openedTickets.json: DATA {'1303817724098773062': {'creator_id': 787065576995553301, 'employee_id': None, 'type': 'gen'}}
+2024-11-06 20:26:19,292 - INFO - OBJECT UPDATED ON global_variables/openedTickets.json: KEY 1303817724098773062; OLD DATA: 'None'; NEW DATA: 787065576995553301
+2024-11-06 20:26:19,467 - ERROR - Task exception was never retrieved
+future: <Task finished name='CommandTree-invoker' coro=<CommandTree._from_interaction.<locals>.wrapper() done, defined at /usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py:1149> exception=NotFound('404 Not Found (error code: 10062): Unknown interaction')>
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 141, in claimticket
+    await ctx.response.send_message(content=f"{ctx.user.name} is now handling this ticket.")
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/interactions.py", line 855, in send_message
+    await adapter.create_interaction_response(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/webhook/async_.py", line 221, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'claimticket' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1151, in wrapper
+    await self._call(interaction)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1314, in _call
+    await self.on_error(interaction, e)
+  File "/workspaces/ovr-bot/src/bot.py", line 79, in on_app_command_error
+    await interaction.response.send_message("**An error occurred, please try again in some moments. If this message keeps showing, please open a general ticket in <#1274925768090320987>.**", ephemeral=True)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/interactions.py", line 855, in send_message
+    await adapter.create_interaction_response(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/webhook/async_.py", line 221, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2024-11-06 20:28:38,021 - INFO - NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-06 20:28:38,206 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-06 20:28:38,207 - INFO - Console is ready and is listening for commands
+
+2024-11-06 20:28:38,207 - INFO - logging in using static token
+2024-11-06 20:28:38,756 - INFO - Shard ID None has connected to Gateway (Session ID: 258b4542e54c9ecd97df4bb60463c253).
+2024-11-06 20:28:40,764 - INFO - Bot ready.
+2024-11-06 20:28:56,766 - INFO - OBJECT UPDATED ON global_variables/openedTickets.json: KEY 1303817724098773062; OLD DATA: '787065576995553301'; NEW DATA: 787065576995553301
+2024-11-06 20:29:05,482 - INFO - OBJECT DELETED ON global_variables/openedTickets.json: KEY 1303817724098773062; DATA: {'creator_id': 787065576995553301, 'employee_id': '787065576995553301', 'type': 'gen'}
+2024-11-06 20:35:04,904 - INFO - NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-06 20:35:24,087 - INFO - NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-06 20:35:24,287 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-06 20:35:24,289 - INFO - Console is ready and is listening for commands
+
+2024-11-06 20:35:24,290 - INFO - logging in using static token
+2024-11-06 20:35:24,785 - INFO - Shard ID None has connected to Gateway (Session ID: 40736ed9f2d574578fdf634844d100f6).
+2024-11-06 20:35:26,791 - INFO - Bot ready.
+2024-11-06 20:35:32,273 - ERROR - Task exception was never retrieved
+future: <Task finished name='CommandTree-invoker' coro=<CommandTree._from_interaction.<locals>.wrapper() done, defined at /usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py:1149> exception=InteractionResponded('This interaction has already been responded to before')>
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 113, in openrental
+    global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None, "guild_id": ctx.guild_id}},)
+  File "/workspaces/ovr-bot/src/global_variables/global_variables.py", line 27, in update_json_file
+    log_to_file(file_path, f"NEW OBJECT ON {file_path}: DATA {new_data}")
+  File "/workspaces/ovr-bot/src/global_variables/global_variables.py", line 10, in log_to_file
+    with open(log_file, "a") as f:
+         ^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'logs/openedRentals.log'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'openrental' raised an exception: FileNotFoundError: [Errno 2] No such file or directory: 'logs/openedRentals.log'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1151, in wrapper
+    await self._call(interaction)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1314, in _call
+    await self.on_error(interaction, e)
+  File "/workspaces/ovr-bot/src/bot.py", line 79, in on_app_command_error
+    await interaction.response.send_message("**An error occurred, please try again in some moments. If this message keeps showing, please open a general ticket in <#1274925768090320987>.**", ephemeral=True)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/interactions.py", line 827, in send_message
+    raise InteractionResponded(self._parent)
+discord.errors.InteractionResponded: This interaction has already been responded to before
+2024-11-06 20:41:23,803 - INFO - NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-06 20:41:24,004 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-06 20:41:24,006 - INFO - Console is ready and is listening for commands
+
+2024-11-06 20:41:24,007 - INFO - logging in using static token
+2024-11-06 20:41:24,471 - INFO - Shard ID None has connected to Gateway (Session ID: adb56006255bf91ee4587242b9177ba8).
+2024-11-06 20:41:26,526 - INFO - Bot ready.
+2024-11-06 20:42:00,962 - INFO - NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-06 20:42:01,172 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-06 20:42:01,174 - INFO - Console is ready and is listening for commands
+
+2024-11-06 20:42:01,175 - INFO - logging in using static token
+2024-11-06 20:42:01,677 - INFO - Shard ID None has connected to Gateway (Session ID: 1b8472b6a3e67cbe3d7d41134113c4fc).
+2024-11-06 20:42:03,687 - INFO - Bot ready.
+2024-11-06 20:42:17,125 - INFO - NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-06 20:42:17,308 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-06 20:42:17,310 - INFO - Console is ready and is listening for commands
+
+2024-11-06 20:42:17,310 - INFO - logging in using static token
+2024-11-06 20:42:17,956 - INFO - Shard ID None has connected to Gateway (Session ID: 49f5b3ae285bb31a4524707a821bbb3c).
+2024-11-06 20:42:19,965 - INFO - Bot ready.
+2024-11-06 20:42:23,524 - INFO - NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-06 20:42:23,726 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-06 20:42:23,729 - INFO - Console is ready and is listening for commands
+
+2024-11-06 20:42:23,729 - INFO - logging in using static token
+2024-11-06 20:42:24,240 - INFO - Shard ID None has connected to Gateway (Session ID: feb5253fb5ad3a0b9d0fb85ecdae8d17).
+2024-11-06 20:42:26,245 - INFO - Bot ready.
+2024-11-06 20:52:08,990 - INFO - NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-06 20:52:09,175 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-06 20:52:09,177 - INFO - Console is ready and is listening for commands
+
+2024-11-06 20:52:09,177 - INFO - logging in using static token
+2024-11-06 20:52:41,922 - INFO - NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-06 20:52:42,105 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-06 20:52:42,107 - INFO - Console is ready and is listening for commands
+
+2024-11-06 20:52:42,107 - INFO - logging in using static token
+2024-11-06 20:52:49,603 - INFO - NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-06 20:52:49,792 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-06 20:52:49,794 - INFO - Console is ready and is listening for commands
+
+2024-11-06 20:52:49,795 - INFO - logging in using static token
+2024-11-06 20:52:50,242 - INFO - Shard ID None has connected to Gateway (Session ID: b9a1f17312e245f41281d431ff58d20d).
+2024-11-06 20:52:52,250 - INFO - Bot ready.
