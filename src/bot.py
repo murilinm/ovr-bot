@@ -58,7 +58,29 @@ async def on_ready():
     print(f'Logged in as {bot.user} (ID: {bot.user.id})')
     print('------')
     logging.info("Bot ready.")
-    
+
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+        await ctx.send("**Command not found, use !help to see the list of available commands.**")
+    elif isinstance(error, commands.CommandInvokeError):
+        await ctx.send("**An error occurred, please try again in some moments. If this message keeps showing, please open a general ticket in <@1274925768090320987>.**")
+        logging.error(error)
+    else:
+        await ctx.send("**An unknown error occurred, please try again in some moments. If this message keeps showing, please open a general ticket in <#1274925768090320987>.**")
+        logging.error(error)
+
+@bot.tree.error
+async def on_app_command_error(interaction: discord.Interaction, error):
+    if isinstance(error, app_commands.CommandNotFound):
+        await interaction.response.send_message("**Command not found, use !help to see the list of available commands.**", ephemeral=True)
+        logging.error(error)
+    elif isinstance(error, app_commands.CommandInvokeError):
+        await interaction.response.send_message("**An error occurred, please try again in some moments. If this message keeps showing, please open a general ticket in <#1274925768090320987>.**", ephemeral=True)
+        logging.error(error)
+    else:
+        await interaction.response.send_message("**An unknown error occurred, please try again in some moments. If this message keeps showing, please open a general ticket at <#1274925768090320987>.**", ephemeral=True)
+        logging.error(error)
 
 # SERVER COMMANDS
 # - SLASH COMMANDS
@@ -119,43 +141,46 @@ async def claimticket(ctx):
 
 # - PREFIX COMMANDS
 @bot.group()
+@commands.is_owner()
 async def cool(ctx):
     """Says if a user is cool."""
-    if ctx.invoked_subcommand is None and ctx.message.author.id == my_id:
+    if ctx.invoked_subcommand is None:
         await ctx.send(f'No, {ctx.subcommand_passed} is not cool')
 
 @cool.command(name='bot')
+@commands.is_owner()
 async def _bot(ctx):
     """Is the bot cool?"""
-    if ctx.message.author.id == my_id:
-        await ctx.send('Yes, the bot is cool.')
+    await ctx.send('Yes, the bot is cool.')
 
 @cool.command(name='murilo2.0')
+@commands.is_owner()
 async def _bot(ctx):
-    if ctx.message.author.id == my_id:
-        await ctx.send('Yes, the creator is cool :sunglasses:')
+    """Is the creator cool?"""
+    await ctx.send('Yes, the creator is cool :sunglasses:')
 
 @bot.command()
+@commands.is_owner()
 async def sync(ctx):
-    if ctx.message.author.id == my_id:
-        bot.tree.copy_global_to(guild=discord.Object(id=test_guild_id))
-        bot.tree.copy_global_to(guild=discord.Object(id=main_guild_id))
-        await bot.tree.sync(guild=discord.Object(id=test_guild_id))
-        await bot.tree.sync(guild=discord.Object(id=main_guild_id))
-        await ctx.send(':white_check_mark:')
-        print("Successfully synced bot tree")
+    bot.tree.copy_global_to(guild=discord.Object(id=test_guild_id))
+    bot.tree.copy_global_to(guild=discord.Object(id=main_guild_id))
+    await bot.tree.sync(guild=discord.Object(id=test_guild_id))
+    await bot.tree.sync(guild=discord.Object(id=main_guild_id))
+    await ctx.send(':white_check_mark:')
+    print("Successfully synced bot tree")
 
 @bot.command()
+@commands.is_owner()
 async def ticketembed(ctx):
-    if ctx.message.author.id == my_id:
-        embed = discord.Embed(description="<:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782>")
-        v=View()
-        v.add_item(buttons.ticket_general())
-        v.add_item(buttons.ticket_management())
-        await ctx.send(embeds=[embed], view=v)
-        await ctx.message.delete()
+    embed = discord.Embed(description="<:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782>")
+    v=View()
+    v.add_item(buttons.ticket_general())
+    v.add_item(buttons.ticket_management())
+    await ctx.send(embeds=[embed], view=v)
+    await ctx.message.delete()   
 
 @bot.command()
+@commands.is_owner()
 async def ping(ctx):
     if ctx.message.author.id==my_id:
         await ctx.send(f'Pong! {round(bot.latency * 1000)}ms.')
