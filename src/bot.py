@@ -214,4 +214,4 @@ async def ping():
 
 # STARTS BOT
 my_console.start()
-bot.run(os.getenv("TOKEN"), reconnect=True)
+bot.run(str(os.getenv("TOKEN")), reconnect=True)
