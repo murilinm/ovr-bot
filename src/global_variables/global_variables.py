@@ -1,10 +1,10 @@
 import json
 import logging
+import os
 
 # FUNCTIONS
 def log_to_file(fp, message):
-    # Determine log file based on `fp` content
-    log_file = "logs/openedRentals.log" if "openedRentals" in fp else "logs/openedTickets.log" if "openedTickets" in fp else None
+    log_file = os.path.join(os.path.dirname(__file__), '..', 'ovr-bot.log')
     
     if log_file:
         with open(log_file, "a") as f:

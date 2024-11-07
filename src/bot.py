@@ -1,7 +1,7 @@
 # IMPORTS
 import logging
 logging.basicConfig(level=logging.INFO, filename="ovr-bot.log", format="%(asctime)s - %(levelname)s - %(message)s")
-logging.info("NEW SESSION --------------------------------------------------------------------------------------------")
+logging.info("\n\nNEW SESSION --------------------------------------------------------------------------------------------")
 from discord.ext.commands import Bot
 import discord
 from dpyConsole import Console
@@ -13,8 +13,12 @@ from discord.ui import View
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
+import asyncio
 
 # VARIABLES
+global ordb,crdb,ctdb,madb
+ordb = crdb = ctdb = madb = None
+error_str="---------------An error occured, please check ovr-bot.log---------------"
 description = '''Oceanpoint Vacation Rentals bot commands, prefix "!"'''
 intents = discord.Intents.default()
 intents.members = True
@@ -69,21 +73,28 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.CommandInvokeError):
         await ctx.send("**An error occurred, please try again in some moments. If this message keeps showing, please open a general ticket in <@1274925768090320987>.**")
         logging.error(error)
+        return print(error_str)
+    elif isinstance(error, commands.CommandOnCooldown):
+        return await ctx.send(f"**Cooldown, please try again in {error.retry_after} seconds.**")
     else:
         await ctx.send("**An unknown error occurred, please try again in some moments. If this message keeps showing, please open a general ticket in <#1274925768090320987>.**")
         logging.error(error)
+        return print(error_str, error.type)
 
-@bot.tree.error
+@bot.event
 async def on_app_command_error(interaction: discord.Interaction, error):
-    if isinstance(error, app_commands.CommandNotFound):
+    if isinstance(error, commands.CommandNotFound):
         await interaction.response.send_message("**Command not found, use !help to see the list of available commands.**", ephemeral=True)
         logging.error(error)
-    elif isinstance(error, app_commands.CommandInvokeError):
+        return print(error_str)
+    elif isinstance(error, commands.CommandInvokeError):
         await interaction.response.send_message("**An error occurred, please try again in some moments. If this message keeps showing, please open a general ticket in <#1274925768090320987>.**", ephemeral=True)
         logging.error(error)
+        return print(error_str)
     else:
         await interaction.response.send_message("**An unknown error occurred, please try again in some moments. If this message keeps showing, please open a general ticket at <#1274925768090320987>.**", ephemeral=True)
         logging.error(error)
+        return print(error_str)
 
 # SERVER COMMANDS
 # - SLASH COMMANDS
@@ -91,6 +102,9 @@ async def on_app_command_error(interaction: discord.Interaction, error):
 @app_commands.describe(contact_info="Include your Roblox username and your roleplay name (Example: pizzaiolo7, Izzay).", people_in_house="How many people will be living in the house (numbers only).", renting_time="For how many time you will keep the house.", house_type="The house type.", preferred_location="Preffered location of the house (ex. Housing Suburbs) (optional).", pets_in_house="If there will be pets in the house or not.")
 @app_commands.choices(preferred_location=[app_commands.Choice(name="Housing Suburbs", value=1), app_commands.Choice(name="Farms", value=2), app_commands.Choice(name="Sheriff's Office", value=3), app_commands.Choice(name="Springfield", value=4), app_commands.Choice(name="High Rock Park", value=5)], house_type=[app_commands.Choice(name="Small house", value=1), app_commands.Choice(name="Medium house", value=2), app_commands.Choice(name="Large house", value=3), app_commands.Choice(name="Single trailer", value=4), app_commands.Choice(name="Double trailer", value=5), app_commands.Choice(name="Log cabin", value=6)], pets_in_house=[app_commands.Choice(name="Yes", value=1), app_commands.Choice(name="No", value=2), app_commands.Choice(name="Not sure", value=3)])
 async def openrental(ctx: discord.Interaction, contact_info: str, people_in_house: int, renting_time: str, house_type: app_commands.Choice[int], preferred_location: app_commands.Choice[int], pets_in_house: app_commands.Choice[int]):
+    global ordb
+    if ordb: return await ctx.response.send_message(f"Cooldown, please try again in 10 seconds", ephemeral=True)
+    ordb=True
     with open(rentalsPath, "r") as file:
         openedRentals = json.load(file)
     
@@ -115,33 +129,50 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
     await ctx.response.send_message(view=buttons.rental_channel(ctx.guild_id, channel.id), ephemeral=True)
     global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None, "guild_id": ctx.guild_id}},)
     await channel.send(content='@her', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close())
+    await asyncio.sleep(5)
+    ordb=False
 
 @bot.tree.command(name="markas", description="Mark the rental as active/inactive")
 @app_commands.choices(status=[app_commands.Choice(name="Active", value=1), app_commands.Choice(name="Inactive", value=2)])
 async def markas(ctx: discord.Interaction, status: app_commands.Choice[int]):
+    global madb
+    if madb: return await ctx.response.send_message("Cooldown, please try again in 10 seconds.", ephemeral=True)
+    madb=True
     with open(rentalsPath, "r") as file:
         data = json.load(file)
     if status.name == data[f"{ctx.channel_id}"]["is_active"]: return await ctx.response.send_message(content=f"Rental is already marked as {status.name.lower()}.", ephemeral=True)
     global_variables.update_specific_data(rentalsPath, status.name, str(ctx.channel_id), "is_active")
     await ctx.response.send_message(content=f'Marked the rental as {status.name}', ephemeral=True)
+    await asyncio.sleep(5)
+    madb=False
 
 @bot.tree.command(name="claimrental", description="Claim this rental (meaning you will handle the rental).")
 async def claimrental(ctx):
+    global crdb
+    if crdb: return await ctx.response.send_message("Cooldown, please try again in 10 seconds.", ephemeral=True)
+    crdb=True
     with open(rentalsPath, "r") as file:
         data = json.load(file)
         if not ctx.channel_id in data: return await ctx.response.send_message(content="**Rental not found, if you think this is an error, open a general ticket.**", ephemeral=True)
     if ctx.user.id == data[f"{ctx.channel_id}"]["employee_id"]: return await ctx.response.send_message(content=f"Rental is already claimed by {ctx.user.name}.", ephemeral=True)
     global_variables.update_specific_data(rentalsPath, str(ctx.user.id), str(ctx.channel_id), "employee_id")
     await ctx.response.send_message(content=f"{ctx.user.name} is now handling this rental.")
+    await asyncio.sleep(5)
+    crdb=False
 
 @bot.tree.command(name="claimticket", description="Claim this ticket (meaning you will handle this ticket).")
 async def claimticket(ctx):
+    global ctdb
+    if ctdb: return await ctx.response.send_message("Cooldown, please try again in 10 seconds.", ephemeral=True)
+    ctdb=True
     with open(ticketsPath, "r") as file:
         data = json.load(file)
         if not str(ctx.channel_id) in data: return await ctx.response.send_message(content="**Ticket not found, if you think this is an error, open a general ticket.**", ephemeral=True)
     if ctx.user.id == data[f"{ctx.channel_id}"]["employee_id"]: return await ctx.response.send_message(content="Rental is already claimed by you.", ephemeral=True)
     global_variables.update_specific_data(ticketsPath, str(ctx.user.id), str(ctx.channel_id), "employee_id")
     await ctx.response.send_message(content=f"{ctx.user.name} is now handling this ticket.")
+    await asyncio.sleep(5)
+    ctdb=False
 
 # - PREFIX COMMANDS
 @bot.group()
@@ -164,6 +195,7 @@ async def _bot(ctx):
     await ctx.send('Yes, the creator is cool :sunglasses:')
 
 @bot.command()
+@commands.cooldown(rate=1, per=10, type=commands.BucketType.user)
 @commands.is_owner()
 async def sync(ctx):
     bot.tree.copy_global_to(guild=discord.Object(id=test_guild_id))
@@ -190,6 +222,7 @@ async def ping(ctx):
         await ctx.send(f'Pong! {round(bot.latency * 1000)}ms.')
 
 @bot.command(name='help', description='Oceanpoint Vacation Rentals help command.')
+@commands.cooldown(rate=1, per=10, type=commands.BucketType.user)
 async def _help(ctx):
     await ctx.send(content="""```Oceanpoint Vacation Rentals bot commands, prefix "!"\n\n​Prefix commands ("!"):\n\thelp\t\t\tShows this message.\n\nSlash commands:\n\t/openrental\n\t\tOpens a rental channel (all fields required).\n\nOther bot functionalities:\n\t#📡┃support\n\t\tUse the buttons below the embed to open a general ticket or a management ticket.\n\nIf you need more help on a command, or found an error, don't exitate to open a general ticket on the #📡┃support channel.```""")
 
@@ -212,6 +245,13 @@ async def ots():
 async def ping():
     print(f'Pong! {round(bot.latency * 1000)}ms')
 
+@sync.error
+async def sync_erro(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        await ctx.send("cooldown blud")
+    else:
+        print(error_str)
+        logging.error(error)
 # STARTS BOT
 my_console.start()
-bot.run(str(os.getenv("TOKEN")), reconnect=True)
+bot.run(os.getenv("TOKEN"), reconnect=True)
