@@ -1,0 +1,23 @@
+2024-11-07 13:08:45,433 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-07 13:08:45,629 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-07 13:08:45,631 - INFO - Console is ready and is listening for commands
+
+2024-11-07 13:08:45,631 - INFO - logging in using static token
+2024-11-07 13:08:47,310 - INFO - Shard ID None has connected to Gateway (Session ID: 6d21d679dc220b6b51afbbca7cba3b51).
+2024-11-07 13:08:49,357 - INFO - Bot ready.
+2024-11-07 13:08:50,720 - INFO - OBJECT DELETED ON global_variables/openedTickets.json: KEY 1304069909457797253; DATA: {'creator_id': 787065576995553301, 'employee_id': None, 'type': 'gen'}
+2024-11-07 13:08:55,014 - INFO - NEW OBJECT ON global_variables/openedTickets.json: DATA {'1304070075996962897': {'creator_id': 787065576995553301, 'employee_id': None, 'type': 'gen'}}
+2024-11-07 13:08:56,815 - INFO - OBJECT DELETED ON global_variables/openedTickets.json: KEY 1304070075996962897; DATA: {'creator_id': 787065576995553301, 'employee_id': None, 'type': 'gen'}
+2024-11-07 13:09:38,753 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-07 13:09:38,983 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-07 13:09:38,985 - INFO - Console is ready and is listening for commands
+
+2024-11-07 13:09:38,985 - INFO - logging in using static token
+2024-11-07 13:09:39,476 - INFO - Shard ID None has connected to Gateway (Session ID: 777625632f8bdde291f8f7e348e4e3bd).
+2024-11-07 13:09:41,483 - INFO - Bot ready.
+2024-11-07 13:09:46,325 - INFO - NEW OBJECT ON global_variables/openedTickets.json: DATA {'1304070290455662673': {'creator_id': 787065576995553301, 'employee_id': None, 'type': 'gen'}}
+2024-11-07 13:09:48,319 - INFO - OBJECT DELETED ON global_variables/openedTickets.json: KEY 1304070290455662673; DATA: {'creator_id': 787065576995553301, 'employee_id': None, 'type': 'gen'}

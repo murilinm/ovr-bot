@@ -3,8 +3,9 @@ from discord.ui import Button, View
 from global_variables import global_variables
 from static import embeds
 import json
+import asyncio
 
-# VARIABLES (MAIN SERVER)
+# VARIABLES
 # - TEST SERVER
 test_guild_id=1291429430895575080
 test_tickets_cat_id=1292466525998940244
@@ -26,6 +27,8 @@ main_roles = {
     "hr": 1274921886886789131,
     "master_contractor": 1287521769422323784
 }
+global gdb,mdb
+gdb=mdb=False
 
 # FUNCTIONS
 
@@ -77,6 +80,9 @@ def ticket_close_():
 def ticket_general():
     button = Button(style=discord.ButtonStyle.secondary, label="General", custom_id="ticket_general_button", emoji='📑')
     async def callback(interaction):
+        global gdb
+        if gdb: return await interaction.response.send_message(content="Cooldown, please try again in 10 seconds.", ephemeral=True)
+        gdb=True
         if check_tickets(interaction)>=1: return await interaction.response.send_message(content="You already have a ticket opened, please close it before opening another one", ephemeral=True)
         # VARIABLES
         category = discord.utils.get(interaction.guild.categories, id=main_tickets_cat_id)
@@ -90,6 +96,8 @@ def ticket_general():
         await interaction.response.send_message(view=v, ephemeral=True)
         await channel.send(content='@her', embed=embeds.general_ticket_channel(interaction.user.name), view=ticket_close_())
         global_variables.update_json_file("global_variables/openedTickets.json", {str(channel.id): {"creator_id": interaction.user.id, "employee_id": None, "type": "gen"}})
+        await asyncio.sleep(5)
+        gdb=False
 
     button.callback=callback
 
@@ -98,6 +106,9 @@ def ticket_general():
 def ticket_management():
     button=Button(style=discord.ButtonStyle.secondary, label="Management", custom_id="ticket_management_button", emoji='⛔')
     async def callback(interaction):
+        global mdb
+        if mdb: return await interaction.response.send_message(content="Cooldown, please try again in 10 seconds.", ephemeral=True)
+        mdb=True
         if check_tickets(interaction)>=1: return await interaction.response.send_message(content="You already have a ticket opened, please close it before opening another one.", ephemeral=True)
         # VARIABLES
         category = discord.utils.get(interaction.guild.categories, id=main_tickets_cat_id)
@@ -111,6 +122,8 @@ def ticket_management():
         await interaction.response.send_message(view=v, ephemeral=True)
         await channel.send(content='@her', embed=embeds.management_ticket_channel(interaction.user.name), view=ticket_close_())
         global_variables.update_json_file("global_variables/openedTickets.json", {str(channel.id): {"creator_id": interaction.user.id, "employee_id": None, "type": "mana"}})
+        await asyncio.sleep(5)
+        mdb=False
 
     button.callback=callback
 

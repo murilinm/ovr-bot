@@ -69,6 +69,7 @@ async def on_ready():
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
+        if "purge" in ctx.message.content: return
         await ctx.send("**Command not found, use !help to see the list of available commands.**")
     elif isinstance(error, commands.CommandInvokeError):
         await ctx.send("**An error occurred, please try again in some moments. If this message keeps showing, please open a general ticket in <@1274925768090320987>.**")
@@ -83,11 +84,7 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_app_command_error(interaction: discord.Interaction, error):
-    if isinstance(error, commands.CommandNotFound):
-        await interaction.response.send_message("**Command not found, use !help to see the list of available commands.**", ephemeral=True)
-        logging.error(error)
-        return print(error_str)
-    elif isinstance(error, commands.CommandInvokeError):
+    if isinstance(error, commands.CommandInvokeError):
         await interaction.response.send_message("**An error occurred, please try again in some moments. If this message keeps showing, please open a general ticket in <#1274925768090320987>.**", ephemeral=True)
         logging.error(error)
         return print(error_str)
