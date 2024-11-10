@@ -1,0 +1,753 @@
+2024-11-10 11:26:24,338 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 11:26:24,798 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 11:27:47,261 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 11:27:47,455 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 11:27:47,458 - INFO - Console is ready and is listening for commands
+
+2024-11-10 11:27:47,459 - INFO - logging in using static token
+2024-11-10 11:27:47,973 - INFO - Shard ID None has connected to Gateway (Session ID: 929056e91f0c157b38595892b919e42b).
+2024-11-10 11:27:49,990 - INFO - Bot ready.
+2024-11-10 11:28:26,824 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 11:28:27,006 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 11:28:27,007 - INFO - Console is ready and is listening for commands
+
+2024-11-10 11:28:27,008 - INFO - logging in using static token
+2024-11-10 11:28:27,419 - INFO - Shard ID None has connected to Gateway (Session ID: 9ec137aedfa1b6adc579f5cdddd52509).
+2024-11-10 11:28:29,453 - INFO - Bot ready.
+2024-11-10 11:28:36,645 - INFO - NEW OBJECT ON global_variables/openedRentals.json: DATA {1305131996409757706: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}}
+2024-11-10 11:30:16,884 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 11:30:17,064 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 11:30:17,066 - INFO - Console is ready and is listening for commands
+
+2024-11-10 11:30:17,066 - INFO - logging in using static token
+2024-11-10 11:30:17,534 - INFO - Shard ID None has connected to Gateway (Session ID: c58b1edb267a27509d6e0f4d6f826007).
+2024-11-10 11:30:19,540 - INFO - Bot ready.
+2024-11-10 11:31:21,515 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 189, in scheduleclosing
+    await asyncio.sleep(time.value)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/interactions.py", line 855, in send_message
+    await adapter.create_interaction_response(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/webhook/async_.py", line 221, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2024-11-10 11:34:06,579 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 11:34:06,762 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 11:34:06,764 - INFO - Console is ready and is listening for commands
+
+2024-11-10 11:34:06,764 - INFO - logging in using static token
+2024-11-10 11:34:07,288 - INFO - Shard ID None has connected to Gateway (Session ID: 15f7705108afabb43362d6e57fcb68df).
+2024-11-10 11:34:09,292 - INFO - Bot ready.
+2024-11-10 11:35:10,316 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 11:35:10,502 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 11:35:10,504 - INFO - Console is ready and is listening for commands
+
+2024-11-10 11:35:10,504 - INFO - logging in using static token
+2024-11-10 11:35:10,955 - INFO - Shard ID None has connected to Gateway (Session ID: c4e854de2ac57ecec78853c6b5f4f808).
+2024-11-10 11:35:12,982 - INFO - Bot ready.
+2024-11-10 11:36:15,183 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 193, in scheduleclosing
+    global_variables.delete_key(file_path=fp, key_to_remove=ctx.channel_id)
+  File "/workspaces/ovr-bot/src/global_variables/global_variables.py", line 30, in delete_key
+    with open(file_path, "r") as file:
+         ^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not dict
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 872, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: TypeError: expected str, bytes or os.PathLike object, not dict
+2024-11-10 11:36:48,952 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 11:36:49,182 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 11:36:49,183 - INFO - Console is ready and is listening for commands
+
+2024-11-10 11:36:49,184 - INFO - logging in using static token
+2024-11-10 11:36:49,583 - INFO - Shard ID None has connected to Gateway (Session ID: ab6173fcabe36b2cd84efba4fd598d5a).
+2024-11-10 11:36:51,589 - INFO - Bot ready.
+2024-11-10 11:37:00,209 - INFO - NEW OBJECT ON global_variables/openedRentals.json: DATA {1305134109500112936: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}}
+2024-11-10 11:38:06,512 - INFO - OBJECT DELETED ON global_variables/openedRentals.json: KEY 1305134109500112936; DATA: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}
+2024-11-10 11:41:16,544 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 11:41:16,727 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 11:41:16,729 - INFO - Console is ready and is listening for commands
+
+2024-11-10 11:41:16,729 - INFO - logging in using static token
+2024-11-10 11:41:17,152 - INFO - Shard ID None has connected to Gateway (Session ID: f1363b9013f7c0c6cbefa3e053b07960).
+2024-11-10 11:41:19,188 - INFO - Bot ready.
+2024-11-10 11:41:27,984 - INFO - NEW OBJECT ON global_variables/openedRentals.json: DATA {1305135232315555910: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}}
+2024-11-10 11:41:33,754 - INFO - 1305135232315555910 closing in 1 minute.
+2024-11-10 11:42:35,326 - INFO - OBJECT DELETED ON global_variables/openedRentals.json: KEY 1305135232315555910; DATA: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}
+2024-11-10 11:42:57,517 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 11:42:57,707 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 11:42:57,709 - INFO - Console is ready and is listening for commands
+
+2024-11-10 11:42:57,709 - INFO - logging in using static token
+2024-11-10 11:42:58,140 - INFO - Shard ID None has connected to Gateway (Session ID: aa66f2afdf43571a1037436258241aaa).
+2024-11-10 11:43:00,148 - INFO - Bot ready.
+2024-11-10 11:43:08,693 - INFO - NEW OBJECT ON global_variables/openedTickets.json: DATA {'1305135652488216606': {'creator_id': 787065576995553301, 'employee_id': None, 'type': 'gen'}}
+2024-11-10 11:45:32,665 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 11:45:32,886 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 11:45:32,888 - INFO - Console is ready and is listening for commands
+
+2024-11-10 11:45:32,888 - INFO - logging in using static token
+2024-11-10 11:45:33,323 - INFO - Shard ID None has connected to Gateway (Session ID: 11a5491618c8115ab699112848b359da).
+2024-11-10 11:45:35,371 - INFO - Bot ready.
+2024-11-10 11:46:02,177 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 11:46:02,374 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 11:46:02,377 - INFO - Console is ready and is listening for commands
+
+2024-11-10 11:46:02,378 - INFO - logging in using static token
+2024-11-10 11:46:02,860 - INFO - Shard ID None has connected to Gateway (Session ID: 74969fc51d7de49b3ce33ed5162f6f38).
+2024-11-10 11:46:04,871 - INFO - Bot ready.
+2024-11-10 11:46:06,281 - INFO - 1305135652488216606 closing in 1 minute.
+2024-11-10 11:46:33,033 - INFO - OBJECT UPDATED ON global_variables/openedTickets.json: KEY 1305135652488216606; OLD DATA: 'None'; NEW DATA: 787065576995553301
+2024-11-10 11:48:37,873 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 11:48:38,055 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 11:48:38,057 - INFO - Console is ready and is listening for commands
+
+2024-11-10 11:48:38,057 - INFO - logging in using static token
+2024-11-10 11:48:38,478 - INFO - Shard ID None has connected to Gateway (Session ID: c11424c57e52520cdcebc35cfe5cf31e).
+2024-11-10 11:48:40,483 - INFO - Bot ready.
+2024-11-10 11:48:53,058 - INFO - NEW OBJECT ON global_variables/openedTickets.json: DATA {'1305137098210410498': {'creator_id': 787065576995553301, 'employee_id': None, 'type': 'gen'}}
+2024-11-10 11:48:57,038 - INFO - 1305137098210410498 closing in 1 minute.
+2024-11-10 11:49:57,437 - INFO - OBJECT DELETED ON global_variables/openedTickets.json: KEY 1305137098210410498; DATA: {'creator_id': 787065576995553301, 'employee_id': None, 'type': 'gen'}
+2024-11-10 12:10:15,348 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:10:15,569 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:10:15,570 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:10:15,571 - INFO - logging in using static token
+2024-11-10 12:10:16,017 - INFO - Shard ID None has connected to Gateway (Session ID: 6b0ae9d3f0869c0e445730067cf2d613).
+2024-11-10 12:10:18,057 - INFO - Bot ready.
+2024-11-10 12:10:22,681 - INFO - NEW OBJECT ON global_variables/openedRentals.json: DATA {1305142508367384658: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}}
+2024-11-10 12:10:28,385 - INFO - 1305142508367384658 closing in 1 minute.
+2024-11-10 12:11:28,674 - INFO - OBJECT DELETED ON global_variables/openedRentals.json: KEY 1305142508367384658; DATA: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}
+2024-11-10 12:12:48,541 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:12:48,729 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:12:48,731 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:12:48,732 - INFO - logging in using static token
+2024-11-10 12:12:49,330 - INFO - Shard ID None has connected to Gateway (Session ID: 6fd54352a86922cd08390b52cd337161).
+2024-11-10 12:12:51,338 - INFO - Bot ready.
+2024-11-10 12:12:53,246 - INFO - NEW OBJECT ON global_variables/openedRentals.json: DATA {1305143138532458539: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}}
+2024-11-10 12:13:00,947 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 189, in scheduleclosing
+    for message in range(len(messages)): print(message.content)
+                                               ^^^^^^^^^^^^^^^
+AttributeError: 'int' object has no attribute 'content'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: AttributeError: 'int' object has no attribute 'content'
+2024-11-10 12:13:51,901 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:13:52,095 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:13:52,097 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:13:52,097 - INFO - logging in using static token
+2024-11-10 12:13:52,482 - INFO - Shard ID None has connected to Gateway (Session ID: 96642ae4ab0c89e8b55ddea17bbbfbc1).
+2024-11-10 12:13:54,490 - INFO - Bot ready.
+2024-11-10 12:13:58,586 - INFO - 1305143138532458539 closing in 1 minute.
+2024-11-10 12:14:58,888 - INFO - OBJECT DELETED ON global_variables/openedRentals.json: KEY 1305143138532458539; DATA: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}
+2024-11-10 12:18:53,353 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:18:53,565 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:18:53,567 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:18:53,568 - INFO - logging in using static token
+2024-11-10 12:18:54,069 - INFO - Shard ID None has connected to Gateway (Session ID: de8e62f271e3079ecb0fc8c9d646d370).
+2024-11-10 12:18:56,074 - INFO - Bot ready.
+2024-11-10 12:19:00,405 - INFO - NEW OBJECT ON global_variables/openedRentals.json: DATA {1305144679775342602: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}}
+2024-11-10 12:19:08,374 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 194, in scheduleclosing
+    await ctx.send(file=file)
+          ^^^^^^^^
+AttributeError: 'Interaction' object has no attribute 'send'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: AttributeError: 'Interaction' object has no attribute 'send'
+2024-11-10 12:19:35,298 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:19:35,512 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:19:35,514 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:19:35,514 - INFO - logging in using static token
+2024-11-10 12:19:36,857 - INFO - Shard ID None has connected to Gateway (Session ID: c469a1dfb4558f9a54bbb41f337a8247).
+2024-11-10 12:19:39,021 - INFO - Bot ready.
+2024-11-10 12:19:57,531 - INFO - 1305144679775342602 closing in 1 minute.
+2024-11-10 12:20:39,355 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:20:39,542 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:20:39,544 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:20:39,544 - INFO - logging in using static token
+2024-11-10 12:20:39,900 - INFO - Shard ID None has connected to Gateway (Session ID: 33dc84f4cd25cd5970fab3f9168beb8d).
+2024-11-10 12:20:41,908 - INFO - Bot ready.
+2024-11-10 12:20:50,141 - INFO - 1305144679775342602 closing in 1 minute.
+2024-11-10 12:21:50,440 - INFO - OBJECT DELETED ON global_variables/openedRentals.json: KEY 1305144679775342602; DATA: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}
+2024-11-10 12:22:45,864 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:22:46,067 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:22:46,069 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:22:46,069 - INFO - logging in using static token
+2024-11-10 12:22:46,501 - INFO - Shard ID None has connected to Gateway (Session ID: 2969ccd6aada2a3df6b49785e75f2675).
+2024-11-10 12:22:48,509 - INFO - Bot ready.
+2024-11-10 12:22:50,533 - INFO - NEW OBJECT ON global_variables/openedRentals.json: DATA {1305145644847202314: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}}
+2024-11-10 12:23:14,926 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 191, in scheduleclosing
+    file.write(f"{msg.created_at} - {msg.author.display_name}: \n{msg.clean_content}\n{msg.clean_embeds}\n\n")
+                                                                                       ^^^^^^^^^^^^^^^^
+AttributeError: 'Message' object has no attribute 'clean_embeds'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: AttributeError: 'Message' object has no attribute 'clean_embeds'
+2024-11-10 12:23:23,688 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:23:23,892 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:23:23,894 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:23:23,895 - INFO - logging in using static token
+2024-11-10 12:23:24,325 - INFO - Shard ID None has connected to Gateway (Session ID: 1333d757ee4eb5026c2a5ebf1daed665).
+2024-11-10 12:23:26,330 - INFO - Bot ready.
+2024-11-10 12:23:31,103 - INFO - 1305145644847202314 closing in 1 minute.
+2024-11-10 12:24:18,108 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:24:18,303 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:24:18,305 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:24:18,306 - INFO - logging in using static token
+2024-11-10 12:24:18,792 - INFO - Shard ID None has connected to Gateway (Session ID: 696ecef1cbb36134bc129622584286e8).
+2024-11-10 12:24:20,808 - INFO - Bot ready.
+2024-11-10 12:24:22,982 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 191, in scheduleclosing
+    file.write(f"{msg.created_at} - {msg.author.display_name}: \n{msg.clean_content}\n{msg.embeds.description}\n\n")
+                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'description'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: AttributeError: 'list' object has no attribute 'description'
+2024-11-10 12:24:57,477 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:24:57,673 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:24:57,675 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:24:57,676 - INFO - logging in using static token
+2024-11-10 12:24:58,938 - INFO - Shard ID None has connected to Gateway (Session ID: d8fbe201ded64c1838fe6d5cb423aa4d).
+2024-11-10 12:25:00,949 - INFO - Bot ready.
+2024-11-10 12:25:01,927 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 191, in scheduleclosing
+    file.write(f"{msg.created_at} - {msg.author.display_name}: \n{msg.clean_content}\n{msg.embeds[1].description}\n\n")
+                                                                                       ~~~~~~~~~~^^^
+IndexError: list index out of range
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: IndexError: list index out of range
+2024-11-10 12:25:09,503 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:25:09,696 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:25:09,697 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:25:09,698 - INFO - logging in using static token
+2024-11-10 12:25:10,203 - INFO - Shard ID None has connected to Gateway (Session ID: aecaa2a383bae83c14cda9bb4b587000).
+2024-11-10 12:25:12,208 - INFO - Bot ready.
+2024-11-10 12:25:13,331 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 191, in scheduleclosing
+    file.write(f"{msg.created_at} - {msg.author.display_name}: \n{msg.clean_content}\n{msg.embeds[0].description}\n\n")
+                                                                                       ~~~~~~~~~~^^^
+IndexError: list index out of range
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: IndexError: list index out of range
+2024-11-10 12:27:27,042 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:27:27,231 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:27:27,233 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:27:27,234 - INFO - logging in using static token
+2024-11-10 12:27:27,617 - INFO - Shard ID None has connected to Gateway (Session ID: cee952697ab21b6ddd82b8408e0d21ef).
+2024-11-10 12:27:29,625 - INFO - Bot ready.
+2024-11-10 12:27:32,747 - INFO - 1305145644847202314 closing in 1 minute.
+2024-11-10 12:28:33,067 - INFO - OBJECT DELETED ON global_variables/openedRentals.json: KEY 1305145644847202314; DATA: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}
+2024-11-10 12:35:57,752 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:35:57,944 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:35:57,946 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:35:57,947 - INFO - logging in using static token
+2024-11-10 12:35:58,433 - INFO - Shard ID None has connected to Gateway (Session ID: 8726127949673f40154ecc5c117ca2e1).
+2024-11-10 12:36:00,486 - INFO - Bot ready.
+2024-11-10 12:36:02,356 - INFO - NEW OBJECT ON global_variables/openedRentals.json: DATA {1305148965989257300: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}}
+2024-11-10 12:36:51,627 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 211, in scheduleclosing
+    """.format(ctx.channel.name)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: ' font-family'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: KeyError: ' font-family'
+2024-11-10 12:37:10,249 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:37:10,434 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:37:10,436 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:37:10,437 - INFO - logging in using static token
+2024-11-10 12:37:10,876 - INFO - Shard ID None has connected to Gateway (Session ID: a284c36288e36d9474ea330b7422f0bb).
+2024-11-10 12:37:12,883 - INFO - Bot ready.
+2024-11-10 12:37:15,809 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 234, in scheduleclosing
+    await ctx.send(file=discord.File("transcript.html"))
+          ^^^^^^^^
+AttributeError: 'Interaction' object has no attribute 'send'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: AttributeError: 'Interaction' object has no attribute 'send'
+2024-11-10 12:37:28,395 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:37:28,595 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:37:28,597 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:37:28,598 - INFO - logging in using static token
+2024-11-10 12:37:29,016 - INFO - Shard ID None has connected to Gateway (Session ID: 97ee6e97f6477897a86ce9baa5ae350d).
+2024-11-10 12:37:31,021 - INFO - Bot ready.
+2024-11-10 12:37:32,703 - INFO - 1305148965989257300 closing in 1 minute.
+2024-11-10 12:38:32,995 - INFO - OBJECT DELETED ON global_variables/openedRentals.json: KEY 1305148965989257300; DATA: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}
+2024-11-10 12:45:38,326 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:45:38,559 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:45:38,562 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:45:38,562 - INFO - logging in using static token
+2024-11-10 12:45:38,984 - INFO - Shard ID None has connected to Gateway (Session ID: 503bae973c99b5f22a4f496b8a8341eb).
+2024-11-10 12:45:41,027 - INFO - Bot ready.
+2024-11-10 12:45:42,270 - INFO - NEW OBJECT ON global_variables/openedRentals.json: DATA {1305151398748487730: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}}
+2024-11-10 12:45:45,896 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 211, in scheduleclosing
+    """.format(ctx.channel.name)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: ' font-family'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: KeyError: ' font-family'
+2024-11-10 12:48:38,527 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:48:38,716 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:48:38,718 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:48:38,718 - INFO - logging in using static token
+2024-11-10 12:48:39,102 - INFO - Shard ID None has connected to Gateway (Session ID: 86b372e57b93b4258dff3ca01dc2d230).
+2024-11-10 12:48:41,109 - INFO - Bot ready.
+2024-11-10 12:48:42,864 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 211, in scheduleclosing
+    """.format(ctx.channel.name)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: ' font-family'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: KeyError: ' font-family'
+2024-11-10 12:48:52,000 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:48:52,203 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:48:52,206 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:48:52,207 - INFO - logging in using static token
+2024-11-10 12:48:52,714 - INFO - Shard ID None has connected to Gateway (Session ID: 7d469c52dc24429300ab8936a4f914d1).
+2024-11-10 12:48:54,721 - INFO - Bot ready.
+2024-11-10 12:49:04,553 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 211, in scheduleclosing
+    """.format(ctx.channel.name)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'font-family'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: KeyError: 'font-family'
+2024-11-10 12:51:13,047 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:51:13,269 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:51:13,271 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:51:13,271 - INFO - logging in using static token
+2024-11-10 12:51:13,760 - INFO - Shard ID None has connected to Gateway (Session ID: 5f7ea95a0e188033d9d066a700682c4f).
+2024-11-10 12:51:15,766 - INFO - Bot ready.
+2024-11-10 12:51:16,755 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 211, in scheduleclosing
+    """.format(ctx.channel.name)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: ' line-height'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: KeyError: ' line-height'
+2024-11-10 12:51:25,418 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:51:25,609 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:51:25,612 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:51:25,612 - INFO - logging in using static token
+2024-11-10 12:51:26,108 - INFO - Shard ID None has connected to Gateway (Session ID: e82dd1f60cc1ce7e96d44afc1763fd5d).
+2024-11-10 12:51:28,126 - INFO - Bot ready.
+2024-11-10 12:51:29,596 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 210, in scheduleclosing
+    """.format(ctx.channel.name)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: ' margin-bottom'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: KeyError: ' margin-bottom'
+2024-11-10 12:52:31,018 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:52:31,206 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:52:31,207 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:52:31,208 - INFO - logging in using static token
+2024-11-10 12:52:31,678 - INFO - Shard ID None has connected to Gateway (Session ID: ca499d8fde2b60159ff71b05d4d1acaf).
+2024-11-10 12:52:33,778 - INFO - Bot ready.
+2024-11-10 12:52:35,872 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 210, in scheduleclosing
+    """.format(ctx.channel.name)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: ' '
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: KeyError: ' '
+2024-11-10 12:53:50,050 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:53:50,245 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:53:50,247 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:53:50,247 - INFO - logging in using static token
+2024-11-10 12:53:50,690 - INFO - Shard ID None has connected to Gateway (Session ID: b669ed1dd1121c60d2ef255ac8a0c143).
+2024-11-10 12:53:52,695 - INFO - Bot ready.
+2024-11-10 12:54:00,956 - ERROR - Ignoring exception in command 'scheduleclosing'
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/ovr-bot/src/bot.py", line 207, in scheduleclosing
+    """.format(ctx.channel.name)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: '--background-body'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/discord/app_commands/commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'scheduleclosing' raised an exception: KeyError: '--background-body'
+2024-11-10 12:58:33,458 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:58:33,675 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:58:33,677 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:58:33,678 - INFO - logging in using static token
+2024-11-10 12:58:34,135 - INFO - Shard ID None has connected to Gateway (Session ID: e593ebd7ec0f92ff56a0a2136165079c).
+2024-11-10 12:58:36,142 - INFO - Bot ready.
+2024-11-10 12:58:37,606 - INFO - 1305151398748487730 closing in 1 minute.
+2024-11-10 12:59:22,312 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 12:59:22,578 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 12:59:22,580 - INFO - Console is ready and is listening for commands
+
+2024-11-10 12:59:22,580 - INFO - logging in using static token
+2024-11-10 12:59:22,987 - INFO - Shard ID None has connected to Gateway (Session ID: c469caf2b9a4c41411d35b32a18c464e).
+2024-11-10 12:59:25,001 - INFO - Bot ready.
+2024-11-10 12:59:46,465 - INFO - 1305151398748487730 closing in 1 minute.
+2024-11-10 13:00:46,712 - INFO - OBJECT DELETED ON global_variables/openedRentals.json: KEY 1305151398748487730; DATA: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}
+2024-11-10 13:01:31,207 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 13:01:31,403 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 13:01:31,405 - INFO - Console is ready and is listening for commands
+
+2024-11-10 13:01:31,405 - INFO - logging in using static token
+2024-11-10 13:01:31,963 - INFO - Shard ID None has connected to Gateway (Session ID: 3c7a71e9cd8438eae355292fade7e68f).
+2024-11-10 13:01:33,974 - INFO - Bot ready.
+2024-11-10 13:01:34,424 - INFO - NEW OBJECT ON global_variables/openedRentals.json: DATA {1305155391294013442: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}}
+2024-11-10 13:01:51,739 - INFO - 1305155391294013442 closing in 1 minute.
+2024-11-10 13:02:52,062 - INFO - OBJECT DELETED ON global_variables/openedRentals.json: KEY 1305155391294013442; DATA: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}
+2024-11-10 13:03:37,666 - INFO - NEW OBJECT ON global_variables/openedRentals.json: DATA {1305155908564815923: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}}
+2024-11-10 13:04:00,409 - INFO - 1305155908564815923 closing in 1 minute.
+2024-11-10 13:05:00,696 - INFO - OBJECT DELETED ON global_variables/openedRentals.json: KEY 1305155908564815923; DATA: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}
+2024-11-10 13:06:10,689 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 13:06:10,880 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 13:06:10,881 - INFO - Console is ready and is listening for commands
+
+2024-11-10 13:06:10,882 - INFO - logging in using static token
+2024-11-10 13:06:11,436 - INFO - Shard ID None has connected to Gateway (Session ID: 9122bd4cacc744305d1241ae9b1f1c66).
+2024-11-10 13:06:13,442 - INFO - Bot ready.
+2024-11-10 13:06:16,371 - INFO - NEW OBJECT ON global_variables/openedRentals.json: DATA {1305156574599446700: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}}
+2024-11-10 13:06:22,342 - INFO - 1305156574599446700 closing in 1 minute.
+2024-11-10 13:07:22,647 - INFO - OBJECT DELETED ON global_variables/openedRentals.json: KEY 1305156574599446700; DATA: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}
+2024-11-10 13:07:27,052 - INFO - 
+
+NEW SESSION --------------------------------------------------------------------------------------------
+2024-11-10 13:07:27,250 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-11-10 13:07:27,252 - INFO - Console is ready and is listening for commands
+
+2024-11-10 13:07:27,253 - INFO - logging in using static token
+2024-11-10 13:07:27,688 - INFO - Shard ID None has connected to Gateway (Session ID: 9cab3991360560b27b86f27e7422f04a).
+2024-11-10 13:07:29,706 - INFO - Bot ready.
+2024-11-10 13:07:31,877 - INFO - NEW OBJECT ON global_variables/openedRentals.json: DATA {1305156888232464445: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}}
+2024-11-10 13:07:38,390 - INFO - 1305156888232464445 closing in 1 minute.
+2024-11-10 13:08:38,738 - INFO - OBJECT DELETED ON global_variables/openedRentals.json: KEY 1305156888232464445; DATA: {'renter_id': 787065576995553301, 'is_active': None, 'employee_id': None, 'guild_id': 1274894955663593492}

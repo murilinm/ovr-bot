@@ -16,8 +16,8 @@ from dotenv import load_dotenv
 import asyncio
 
 # VARIABLES
-global ordb,crdb,ctdb,madb
-ordb = crdb = ctdb = madb = None
+global ordb,crdb,ctdb,madb,scdb
+ordb = crdb = ctdb = madb = scdb = None
 error_str="---------------An error occured, please check ovr-bot.log---------------"
 description = '''Oceanpoint Vacation Rentals bot commands, prefix "!"'''
 intents = discord.Intents.default()
@@ -125,7 +125,7 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
     
     await ctx.response.send_message(view=buttons.rental_channel(ctx.guild_id, channel.id), ephemeral=True)
     global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None, "guild_id": ctx.guild_id}},)
-    await channel.send(content='@here', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close())
+    await channel.send(content='@her', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close())
     await asyncio.sleep(5)
     ordb=False
 
@@ -170,6 +170,77 @@ async def claimticket(ctx):
     await ctx.response.send_message(content=f"{ctx.user.name} is now handling this ticket.")
     await asyncio.sleep(5)
     ctdb=False
+
+@bot.tree.command(name='scheduleclosing', description='Schedule a time for this rental/ticket to close.')
+@app_commands.choices(time=[app_commands.Choice(name='1 minute', value=60), app_commands.Choice(name='5 minutes', value=300), app_commands.Choice(name='10 minutes', value=600), app_commands.Choice(name='15 minutes', value=900), app_commands.Choice(name='30 minutes', value=1800)])
+async def scheduleclosing(ctx: discord.Interaction, time: app_commands.Choice[int]):
+    global scdb
+    if scdb: return await ctx.response.send_message("Cooldown, please try again in 10 seconds.", ephemeral=True)
+    scdb=True
+
+    with open(ticketsPath, "r") as f:
+        ticketsData = json.load(f)
+    with open(rentalsPath, "r") as ff:
+        rentalsData = json.load(ff)
+
+    if str(ctx.channel_id) not in rentalsData and str(ctx.channel_id) not in ticketsData: return await ctx.response.send_message(content="**Error: not a ticket/rental channel.**", ephemeral=True)
+
+    # fileName = f"{ctx.channel.name}.txt"
+    # with open(fileName, "w") as file:
+    #     async for msg in ctx.channel.history(limit=None, oldest_first=True):
+    #         embed=msg.embeds[0].description if msg.embeds else None
+    #         file.write(f"{msg.created_at} - {msg.author.display_name}: \n{msg.clean_content}\n{embed}\n\n")
+
+    # file = discord.File(fileName)
+    # await ctx.channel.send(file=file)
+
+#     html_content = """<!DOCTYPE html>
+# <html>
+# <head>
+#     <title>Channel Transcript</title>
+#     <link rel="stylesheet" href="https://raw.githubusercontent.com/Clay-Devs/discordcss/refs/heads/master/discordcss/discord.css">
+# </head>
+# <body>
+#     <h1>Transcript of Channel: {}</h1>
+# """.format(ctx.channel.name)
+
+#     # Fetch messages and format them as HTML.
+#     async for message in ctx.channel.history(limit=1000, oldest_first=True):
+#         timestamp = message.created_at.strftime("%Y-%m-%d %H:%M:%S")
+#         author = message.author
+#         content = message.content.replace('\n', '<br>')  # Replace newlines with <br> tags for HTML formatting.
+
+#         html_message = f"""
+#     <div class="message">
+#         <div class="timestamp">[{timestamp}]</div>
+#         <div class="author">{author}</div>
+#         <div class="content">{content}</div>
+#     </div>
+# """
+#         html_content += html_message
+
+#     # Close the HTML document.
+#     html_content += """
+# </body>
+# </html>
+# """
+
+#     # Save the HTML content to a file.
+#     with open("transcript.html", "w", encoding="utf-8") as file:
+#         file.write(html_content)
+
+#     await ctx.channel.send(file=discord.File("transcript.html"))
+
+    await ctx.response.send_message(content=f'Channel closing in {time.name}.')
+    logging.info(f'{ctx.channel_id} closing in {time.name}.')
+    await asyncio.sleep(time.value)
+    await ctx.channel.send(content='Deleting channel, please wait...')
+    await ctx.channel.delete()
+    fp=ticketsPath if str(ctx.channel_id) in ticketsData else rentalsPath
+    global_variables.delete_key(file_path=fp, key_to_remove=ctx.channel_id)
+    
+    await asyncio.sleep(5)
+    scdb=False
 
 # - PREFIX COMMANDS
 @bot.group()
