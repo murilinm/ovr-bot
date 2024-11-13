@@ -7,7 +7,7 @@ import discord
 from dpyConsole import Console
 import json
 from discord import app_commands
-from static import buttons, embeds
+from static import buttons, embeds, css
 from global_variables import global_variables
 from discord.ui import View
 from discord.ext import commands
@@ -125,7 +125,7 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
     
     await ctx.response.send_message(view=buttons.rental_channel(ctx.guild_id, channel.id), ephemeral=True)
     global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None, "guild_id": ctx.guild_id}},)
-    await channel.send(content='@here', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close())
+    await channel.send(content='@her', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close())
     await asyncio.sleep(5)
     ordb=False
 
@@ -185,56 +185,61 @@ async def scheduleclosing(ctx: discord.Interaction, time: app_commands.Choice[in
 
     if str(ctx.channel_id) not in rentalsData and str(ctx.channel_id) not in ticketsData: return await ctx.response.send_message(content="**Error: not a ticket/rental channel.**", ephemeral=True)
 
-    # fileName = f"{ctx.channel.name}.txt"
-    # with open(fileName, "w") as file:
-    #     async for msg in ctx.channel.history(limit=None, oldest_first=True):
-    #         embed=msg.embeds[0].description if msg.embeds else None
-    #         file.write(f"{msg.created_at} - {msg.author.display_name}: \n{msg.clean_content}\n{embed}\n\n")
-
-    # file = discord.File(fileName)
-    # await ctx.channel.send(file=file)
-
-#     html_content = """<!DOCTYPE html>
-# <html>
-# <head>
-#     <title>Channel Transcript</title>
-#     <link rel="stylesheet" href="https://raw.githubusercontent.com/Clay-Devs/discordcss/refs/heads/master/discordcss/discord.css">
-# </head>
-# <body>
-#     <h1>Transcript of Channel: {}</h1>
-# """.format(ctx.channel.name)
-
-#     # Fetch messages and format them as HTML.
-#     async for message in ctx.channel.history(limit=1000, oldest_first=True):
-#         timestamp = message.created_at.strftime("%Y-%m-%d %H:%M:%S")
-#         author = message.author
-#         content = message.content.replace('\n', '<br>')  # Replace newlines with <br> tags for HTML formatting.
-
-#         html_message = f"""
-#     <div class="message">
-#         <div class="timestamp">[{timestamp}]</div>
-#         <div class="author">{author}</div>
-#         <div class="content">{content}</div>
-#     </div>
-# """
-#         html_content += html_message
-
-#     # Close the HTML document.
-#     html_content += """
-# </body>
-# </html>
-# """
-
-#     # Save the HTML content to a file.
-#     with open("transcript.html", "w", encoding="utf-8") as file:
-#         file.write(html_content)
-
-#     await ctx.channel.send(file=discord.File("transcript.html"))
-
     await ctx.response.send_message(content=f'Channel closing in {time.name}.')
     logging.info(f'{ctx.channel_id} closing in {time.name}.')
-    await asyncio.sleep(time.value)
+    # await asyncio.sleep(time.value)
+    await asyncio.sleep(1)
     await ctx.channel.send(content='Deleting channel, please wait...')
+    html_content = f"""<!DOCTYPE html>
+<html>
+<head>
+    <title>Channel Transcript</title>
+    <style>{css.discord()}</style>
+</head>
+<body>
+    <h1>Transcript of Channel: {ctx.channel.name}</h1>
+"""
+
+    # Fetch messages and format them as HTML.
+    async for message in ctx.channel.history(limit=1000, oldest_first=True):
+        timestamp = message.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        author = message.author
+        content = message.content.replace('\n', '<br>')  # Replace newlines with <br> tags for HTML formatting.
+
+        html_message = f"""
+    <div>
+        <h3>
+        <span>{author} -</span>
+        <span> {timestamp}</span>
+        </h3>
+        <div>
+        <span>{content}</span>
+        </div>
+    </div>
+"""
+        html_content += html_message
+
+    # Close the HTML document.
+    html_content += """
+</body>
+</html>
+"""
+
+    # Save the HTML content to a file.
+    times=1
+    for folder_name, subfolders, filenames in os.walk('static/transcripts'):
+        for subfolder in subfolders:
+            if str(ctx.channel.name) in subfolder:
+                times+=1
+
+    transcript_dir=f"static/transcripts/{ctx.channel.name}-{times}"
+    os.makedirs(transcript_dir)
+    with open(f"{transcript_dir}/transcript.html", "w", encoding="utf-8") as file:
+        file.write(html_content)
+
+    transcript=discord.File(f"{transcript_dir}/transcript.html")
+    transcript_channel = await bot.fetch_channel(1306249332822900819)
+    await transcript_channel.send(file=transcript)
     await ctx.channel.delete()
     fp=ticketsPath if str(ctx.channel_id) in ticketsData else rentalsPath
     global_variables.delete_key(file_path=fp, key_to_remove=ctx.channel_id)
