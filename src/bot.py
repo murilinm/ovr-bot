@@ -1,25 +1,23 @@
 # IMPORTS
-import logging
-logging.basicConfig(level=logging.INFO, filename="ovr-bot.log", format="%(asctime)s - %(levelname)s - %(message)s")
-logging.info("\n\nNEW SESSION --------------------------------------------------------------------------------------------")
+import logging, asyncio, chat_exporter, discord, json, os
 from discord.ext.commands import Bot
-import discord
 from dpyConsole import Console
-import json
 from discord import app_commands
-from static import buttons, embeds, css
+from static import embeds
 from global_variables import global_variables
 from discord.ui import View
 from discord.ext import commands
-import os
 from dotenv import load_dotenv
-import asyncio
-import chat_exporter
-import shutil
+from discord.ui import Button, View
+
+# LOGGING
+logging.basicConfig(level=logging.INFO, filename="ovr-bot.log", format="%(asctime)s - %(levelname)s - %(message)s")
+logging.info("\n\nNEW SESSION --------------------------------------------------------------------------------------------")
 
 # VARIABLES
-global ordb,crdb,ctdb,madb,scdb
-ordb = crdb = ctdb = madb = scdb = None
+load_dotenv()
+global ordb,crdb,ctdb,madb,scdb,gdb,mdb
+ordb = crdb = ctdb = madb = scdb = gdb = mdb = False
 error_str="---------------An error occured, please check ovr-bot.log---------------"
 description = '''Oceanpoint Vacation Rentals bot commands, prefix "!"'''
 intents = discord.Intents.default()
@@ -30,40 +28,150 @@ my_console = Console(bot)
 my_id = 787065576995553301
 rentalsPath = "global_variables/openedRentals.json"
 ticketsPath = "global_variables/openedTickets.json"
-load_dotenv()
 
 # - ID TEST SERVER VARIABLES
 test_guild_id = 1291429430895575080
-test_tickets_cat_id = 1292466525998940244
-test_rentals_cat_id = 1291534971043057724
-test_support_channel_id = 1291890339342450841
-test_employee_role_id = 1291826425430806669
 
 # - ID MAIN SERVER VARIABLES
 main_guild_id = 1274894955663593492
 main_employee_role_id=1287519565915619360
 main_rentals_cat_id=1291088217113624616
-
-# CLASSES
-#class helpCommand():
-#    async def helpCommand(self):
-#        destination = self.get_destination()
-#        await destination.send('```Oceanpoint Vacation Rentals bot commands, prefix "!"\n\n​No Category:\n\tcool\t\t\tSays if a user is cool.\n\thelp\t\t\tShows this message\n\nType !help command for more info on a command.\nYou can also type !help category for more info on a category.```')
-
+main_tickets_cat_id=1291208418282962944
+main_roles = {
+    "employee": 1287519565915619360,
+    "member": 1274907158982688820,
+    "unverified": 1274910503151472641,
+    "hr": 1274921886886789131,
+    "master_contractor": 1287521769422323784
+}
 
 # FUNCTIONS
-def get_guild(guild_id):
-    return bot.fetch_guild(guild_id)
+async def transcript(ctx: discord.Interaction):
+    transcript = await chat_exporter.export(ctx.channel)
+    times=1
+    for folder_name, subfolders, filenames in os.walk('static/transcripts'):
+        for subfolder in subfolders:
+            if str(ctx.channel.name) in subfolder:
+                times+=1
+
+    transcript_dir=f"static/transcripts/{ctx.channel.name}-{times}"
+    os.makedirs(transcript_dir)
+    with open(f"{transcript_dir}/{ctx.channel.name}-{times}.html", "w", encoding="utf-8") as file:
+            file.write(transcript)
+
+    transcript=discord.File(f"{transcript_dir}/{ctx.channel.name}-{times}.html")
+    transcript_channel = bot.get_channel(1306608318160044144) # MAIN SERVER TRANSCRIPTS CHANNEL
+    await transcript_channel.send(file=transcript)
+
+def check_tickets(interaction):
+    with open("global_variables/openedTickets.json", "r") as file:
+        openedTickets = json.load(file)
+    tickets=0
+    for i in openedTickets:
+        if openedTickets[i]["creator_id"]==interaction.user.id: tickets+=1
+    return tickets
+
+# BUTTONS
+
+def rental_channel(guild_id: int, channel_id: int):
+    channel_button = Button(label='Go to rental channel', url=f'https://discord.com/channels/{guild_id}/{channel_id}')
+    view=View()
+    view.add_item(channel_button)
+    return view
+
+def rental_close():
+    
+    close_button=Button(style=discord.ButtonStyle.danger, label='Close', custom_id='rental_close_button', emoji='🔒')
+    
+    async def callback(interaction):
+        await interaction.response.send_message("Closing channel, please wait...")
+        await transcript(interaction)
+        await interaction.channel.delete(reason=f"User {interaction.user.name} (ID: {interaction.user.id}) clicked the 'Close' button")
+        global_variables.delete_key("global_variables/openedRentals.json", interaction.channel_id)
+
+    close_button.callback=callback
+
+    view=View(timeout=None)
+    view.add_item(close_button)
+    return view
+
+def ticket_close():
+    button=Button(style=discord.ButtonStyle.danger, label='Close', custom_id='ticket_close_button', emoji='🔒')
+
+    async def callback(interaction):
+        await interaction.response.send_message("Closing channel, please wait...")
+        await transcript(interaction)
+        await interaction.channel.delete(reason=f"User {interaction.user.name} (ID: {interaction.user.id}) clicked the 'Close' button")
+        global_variables.delete_key("global_variables/openedTickets.json", interaction.channel_id)
+
+    button.callback=callback
+
+    v=View(timeout=None)
+    v.add_item(button)
+    return v
+
+
+def ticket_general():
+    button = Button(style=discord.ButtonStyle.secondary, label="General", custom_id="ticket_general_button", emoji='📑')
+    async def callback(interaction):
+        global gdb
+        if gdb: return await interaction.response.send_message(content="Cooldown, please try again in 10 seconds.", ephemeral=True)
+        gdb=True
+        if check_tickets(interaction)>=1: return await interaction.response.send_message(content="You already have a ticket opened, please close it before opening another one", ephemeral=True)
+        # VARIABLES
+        category = discord.utils.get(interaction.guild.categories, id=main_tickets_cat_id)
+        overwrites=category.overwrites
+        overwrites[interaction.user]=discord.PermissionOverwrite(read_messages=True)
+        # CODE
+        channel = await category.create_text_channel(f'gen-{interaction.user.name[:4]}', overwrites=overwrites)
+        channel_button = Button(style=discord.ButtonStyle.link, label="Go to ticket", url=f'https://discord.com/channels/{interaction.guild_id}/{channel.id}')
+        v=View()
+        v.add_item(channel_button)
+        await interaction.response.send_message(view=v, ephemeral=True)
+        await channel.send(content='@here', embed=embeds.general_ticket_channel(interaction.user.name), view=ticket_close())
+        global_variables.update_json_file("global_variables/openedTickets.json", {str(channel.id): {"creator_id": interaction.user.id, "employee_id": None, "type": "gen"}})
+        await asyncio.sleep(5)
+        gdb=False
+
+    button.callback=callback
+
+    return button
+
+def ticket_management():
+    button=Button(style=discord.ButtonStyle.secondary, label="Management", custom_id="ticket_management_button", emoji='⛔')
+    async def callback(interaction):
+        global mdb
+        if mdb: return await interaction.response.send_message(content="Cooldown, please try again in 10 seconds.", ephemeral=True)
+        mdb=True
+        if check_tickets(interaction)>=1: return await interaction.response.send_message(content="You already have a ticket opened, please close it before opening another one.", ephemeral=True)
+        # VARIABLES
+        category = discord.utils.get(interaction.guild.categories, id=main_tickets_cat_id)
+        overwrites=category.overwrites
+        overwrites[interaction.user]=discord.PermissionOverwrite(read_messages=True)
+        # CODE
+        channel = await category.create_text_channel(f'mana-{interaction.user.name[:4]}', overwrites=overwrites)
+        channel_button = Button(style=discord.ButtonStyle.link, label="Go to ticket", url=f'https://discord.com/channels/{interaction.guild_id}/{channel.id}')
+        v=View()
+        v.add_item(channel_button)
+        await interaction.response.send_message(view=v, ephemeral=True)
+        await channel.send(content='@here', embed=embeds.management_ticket_channel(interaction.user.name), view=ticket_close())
+        global_variables.update_json_file("global_variables/openedTickets.json", {str(channel.id): {"creator_id": interaction.user.id, "employee_id": None, "type": "mana"}})
+        await asyncio.sleep(5)
+        mdb=False
+
+    button.callback=callback
+
+    return button
 
 # EVENTS
 @bot.event
 async def on_ready():
     v=View(timeout=None)
-    v.add_item(buttons.ticket_general())
-    v.add_item(buttons.ticket_management())
-    bot.add_view(buttons.ticket_close_())
+    v.add_item(ticket_general())
+    v.add_item(ticket_management())
     bot.add_view(v)
-    bot.add_view(buttons.rental_close())
+    bot.add_view(ticket_close())
+    bot.add_view(rental_close())
     print(f'Logged in as {bot.user} (ID: {bot.user.id})')
     print('------')
     logging.info("Bot ready.")
@@ -125,9 +233,9 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
 
     channel = await category.create_text_channel(f'rental-{name[:4]}-{times+1}', overwrites=overwrites)
     
-    await ctx.response.send_message(view=buttons.rental_channel(ctx.guild_id, channel.id), ephemeral=True)
+    await ctx.response.send_message(view=rental_channel(ctx.guild_id, channel.id), ephemeral=True)
     global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None, "guild_id": ctx.guild_id}},)
-    await channel.send(content='@her', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=buttons.rental_close())
+    await channel.send(content='@here', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=rental_close())
     await asyncio.sleep(5)
     ordb=False
 
@@ -190,24 +298,8 @@ async def scheduleclosing(ctx: discord.Interaction, time: app_commands.Choice[in
     await ctx.response.send_message(content=f'Channel closing in {time.name}.')
     logging.info(f'{ctx.channel_id} closing in {time.name}.')
     await asyncio.sleep(time.value)
-    await ctx.channel.send(content='Deleting channel, please wait...')
-
-    transcript = await chat_exporter.export(ctx.channel)
-    times=1
-    for folder_name, subfolders, filenames in os.walk('static/transcripts'):
-        for subfolder in subfolders:
-            if str(ctx.channel.name) in subfolder:
-                times+=1
-
-    transcript_dir=f"static/transcripts/{ctx.channel.name}-{times}"
-    os.makedirs(transcript_dir)
-    with open(f"{transcript_dir}/{ctx.channel.name}-{times}.html", "w", encoding="utf-8") as file:
-        file.write(transcript)
-
-    transcript=discord.File(f"{transcript_dir}/{ctx.channel.name}-{times}.html")
-    transcript_channel = await bot.fetch_channel(1306608318160044144) # MAIN SERVER TRANSCRIPTS CHANNEL
-    await transcript_channel.send(file=transcript)
-    
+    await ctx.channel.send(content='Closing channel, please wait...')
+    await transcript(ctx)
     await ctx.channel.delete()
     fp=ticketsPath if str(ctx.channel_id) in ticketsData else rentalsPath
     global_variables.delete_key(file_path=fp, key_to_remove=ctx.channel_id)
@@ -251,8 +343,8 @@ async def sync(ctx):
 async def ticketembed(ctx):
     embed = discord.Embed(description="<:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782><:line_tan:1296460282201374782>")
     v=View()
-    v.add_item(buttons.ticket_general())
-    v.add_item(buttons.ticket_management())
+    v.add_item(ticket_general())
+    v.add_item(ticket_management())
     await ctx.send(embeds=[embed], view=v)
     await ctx.message.delete()   
 

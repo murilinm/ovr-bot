@@ -1,6 +1,4 @@
-import json
-import logging
-import os
+import json, logging, os
 
 # FUNCTIONS
 def log_to_file(fp, message):
