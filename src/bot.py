@@ -14,6 +14,8 @@ from discord.ext import commands
 import os
 from dotenv import load_dotenv
 import asyncio
+import chat_exporter
+import shutil
 
 # VARIABLES
 global ordb,crdb,ctdb,madb,scdb
@@ -187,45 +189,10 @@ async def scheduleclosing(ctx: discord.Interaction, time: app_commands.Choice[in
 
     await ctx.response.send_message(content=f'Channel closing in {time.name}.')
     logging.info(f'{ctx.channel_id} closing in {time.name}.')
-    # await asyncio.sleep(time.value)
-    await asyncio.sleep(1)
+    await asyncio.sleep(time.value)
     await ctx.channel.send(content='Deleting channel, please wait...')
-    html_content = f"""<!DOCTYPE html>
-<html>
-<head>
-    <title>Channel Transcript</title>
-    <style>{css.discord()}</style>
-</head>
-<body>
-    <h1>Transcript of Channel: {ctx.channel.name}</h1>
-"""
 
-    # Fetch messages and format them as HTML.
-    async for message in ctx.channel.history(limit=1000, oldest_first=True):
-        timestamp = message.created_at.strftime("%Y-%m-%d %H:%M:%S")
-        author = message.author
-        content = message.content.replace('\n', '<br>')  # Replace newlines with <br> tags for HTML formatting.
-
-        html_message = f"""
-    <div>
-        <h3>
-        <span>{author} -</span>
-        <span> {timestamp}</span>
-        </h3>
-        <div>
-        <span>{content}</span>
-        </div>
-    </div>
-"""
-        html_content += html_message
-
-    # Close the HTML document.
-    html_content += """
-</body>
-</html>
-"""
-
-    # Save the HTML content to a file.
+    transcript = await chat_exporter.export(ctx.channel)
     times=1
     for folder_name, subfolders, filenames in os.walk('static/transcripts'):
         for subfolder in subfolders:
@@ -234,12 +201,13 @@ async def scheduleclosing(ctx: discord.Interaction, time: app_commands.Choice[in
 
     transcript_dir=f"static/transcripts/{ctx.channel.name}-{times}"
     os.makedirs(transcript_dir)
-    with open(f"{transcript_dir}/transcript.html", "w", encoding="utf-8") as file:
-        file.write(html_content)
+    with open(f"{transcript_dir}/{ctx.channel.name}-{times}.html", "w", encoding="utf-8") as file:
+        file.write(transcript)
 
-    transcript=discord.File(f"{transcript_dir}/transcript.html")
-    transcript_channel = await bot.fetch_channel(1306249332822900819)
+    transcript=discord.File(f"{transcript_dir}/{ctx.channel.name}-{times}.html")
+    transcript_channel = await bot.fetch_channel(1306608318160044144) # MAIN SERVER TRANSCRIPTS CHANNEL
     await transcript_channel.send(file=transcript)
+    
     await ctx.channel.delete()
     fp=ticketsPath if str(ctx.channel_id) in ticketsData else rentalsPath
     global_variables.delete_key(file_path=fp, key_to_remove=ctx.channel_id)
