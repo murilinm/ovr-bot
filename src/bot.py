@@ -46,13 +46,21 @@ main_roles = {
 }
 
 # FUNCTIONS
-async def transcript(ctx: discord.Interaction):
+async def transcript(ctx: discord.Interaction, type: str):
     transcript = await chat_exporter.export(ctx.channel)
     times=1
     for folder_name, subfolders, filenames in os.walk('static/transcripts'):
         for subfolder in subfolders:
-            if str(ctx.channel.name) in subfolder:
-                times+=1
+            print(subfolder)
+            if type=="gen":  
+                if f"gen-{ctx.user.name[:4]}" in subfolder:
+                    times+=1
+            elif type=="mana":
+                if f"mana-{ctx.user.name[:4]}" in subfolder:
+                    times+=1
+            else:
+                if f"rental-{ctx.user.name[:4]}" in subfolder:
+                    times+=1
 
     transcript_dir=f"static/transcripts/{ctx.channel.name}-{times}"
     os.makedirs(transcript_dir)
@@ -85,7 +93,7 @@ def rental_close():
     
     async def callback(interaction):
         await interaction.response.send_message("Closing channel, please wait...")
-        await transcript(interaction)
+        await transcript(interaction, "r")
         await interaction.channel.delete(reason=f"User {interaction.user.name} (ID: {interaction.user.id}) clicked the 'Close' button")
         global_variables.delete_key("global_variables/openedRentals.json", interaction.channel_id)
 
@@ -100,7 +108,7 @@ def ticket_close():
 
     async def callback(interaction):
         await interaction.response.send_message("Closing channel, please wait...")
-        await transcript(interaction)
+        await transcript(interaction, "gen" if "gen" in interaction.channel.name else "mana")
         await interaction.channel.delete(reason=f"User {interaction.user.name} (ID: {interaction.user.id}) clicked the 'Close' button")
         global_variables.delete_key("global_variables/openedTickets.json", interaction.channel_id)
 
@@ -215,7 +223,7 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
     with open(rentalsPath, "r") as file:
         openedRentals = json.load(file)
     
-    times = 0
+    times = 1
     for i in openedRentals:
         if openedRentals[i]["renter_id"] == ctx.user.id:
             times += 1
@@ -231,7 +239,7 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
     overwrites = category.overwrites
     overwrites[user]=discord.PermissionOverwrite(read_messages=True)
 
-    channel = await category.create_text_channel(f'rental-{name[:4]}-{times+1}', overwrites=overwrites)
+    channel = await category.create_text_channel(f'rental-{name[:4]}-{times}', overwrites=overwrites)
     
     await ctx.response.send_message(view=rental_channel(ctx.guild_id, channel.id), ephemeral=True)
     global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None, "guild_id": ctx.guild_id}},)
@@ -299,7 +307,7 @@ async def scheduleclosing(ctx: discord.Interaction, time: app_commands.Choice[in
     logging.info(f'{ctx.channel_id} closing in {time.name}.')
     await asyncio.sleep(time.value)
     await ctx.channel.send(content='Closing channel, please wait...')
-    await transcript(ctx)
+    await transcript(ctx, "gen" if "gen" in ctx.channel.name else "mana")
     await ctx.channel.delete()
     fp=ticketsPath if str(ctx.channel_id) in ticketsData else rentalsPath
     global_variables.delete_key(file_path=fp, key_to_remove=ctx.channel_id)
