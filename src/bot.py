@@ -16,8 +16,8 @@ logging.info("\n\nNEW SESSION --------------------------------------------------
 
 # VARIABLES
 load_dotenv()
-global ordb,crdb,ctdb,madb,scdb,gdb,mdb
-ordb = crdb = ctdb = madb = scdb = gdb = mdb = False
+global ordb,crdb,ctdb,madb,scdb,gdb,mdb,hidb
+ordb = crdb = ctdb = madb = scdb = gdb = mdb = hidb = False
 error_str="---------------An error occured, please check ovr-bot.log---------------"
 description = '''Oceanpoint Vacation Rentals bot commands, prefix "!"'''
 intents = discord.Intents.default()
@@ -51,7 +51,6 @@ async def transcript(ctx: discord.Interaction, type: str):
     times=1
     for folder_name, subfolders, filenames in os.walk('static/transcripts'):
         for subfolder in subfolders:
-            print(subfolder)
             if type=="gen":  
                 if f"gen-{ctx.user.name[:4]}" in subfolder:
                     times+=1
@@ -63,13 +62,15 @@ async def transcript(ctx: discord.Interaction, type: str):
                     times+=1
 
     transcript_dir=f"static/transcripts/{ctx.channel.name}-{times}"
+    file_dir=f"{transcript_dir}/{ctx.channel.name}-{times}.html"
     os.makedirs(transcript_dir)
-    with open(f"{transcript_dir}/{ctx.channel.name}-{times}.html", "w", encoding="utf-8") as file:
+    with open(file_dir, "w", encoding="utf-8") as file:
             file.write(transcript)
 
-    transcript=discord.File(f"{transcript_dir}/{ctx.channel.name}-{times}.html")
+    transcript=discord.File(file_dir)
     transcript_channel = bot.get_channel(1306608318160044144) # MAIN SERVER TRANSCRIPTS CHANNEL
-    await transcript_channel.send(file=transcript)
+    transcript_msg = await transcript_channel.send(file=transcript)
+    logging.info(f"""Transcript successfully made at "/{file_dir}" ({transcript_msg.attachments[0].url})""")
 
 def check_tickets(interaction):
     with open("global_variables/openedTickets.json", "r") as file:
@@ -149,10 +150,10 @@ def ticket_management():
     button=Button(style=discord.ButtonStyle.secondary, label="Management", custom_id="ticket_management_button", emoji='⛔')
     async def callback(interaction):
         global mdb
-        if mdb: return await interaction.response.send_message(content="Cooldown, please try again in 10 seconds.", ephemeral=True)
-        mdb=True
+        if mdb: await interaction.response.send_message(content="Cooldown, please try again in 10 seconds.", ephemeral=True)
         if check_tickets(interaction)>=1: return await interaction.response.send_message(content="You already have a ticket opened, please close it before opening another one.", ephemeral=True)
         # VARIABLES
+        mdb=True
         category = discord.utils.get(interaction.guild.categories, id=main_tickets_cat_id)
         overwrites=category.overwrites
         overwrites[interaction.user]=discord.PermissionOverwrite(read_messages=True)
@@ -184,6 +185,24 @@ async def on_ready():
     print('------')
     logging.info("Bot ready.")
 
+@bot.event
+async def on_message(msg):
+    global hidb
+    if msg.author.id == bot.user.id:
+        return
+
+    if "hi" in msg.content and any(bot.user.id == mention.id for mention in msg.mentions):
+        if hidb:
+            return
+        hidb = True
+
+        await msg.reply("hi")
+        await asyncio.sleep(3)
+        hidb = False
+
+    await bot.process_commands(msg)
+
+# - ERROR LOGGER
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
@@ -255,6 +274,7 @@ async def markas(ctx: discord.Interaction, status: app_commands.Choice[int]):
     madb=True
     with open(rentalsPath, "r") as file:
         data = json.load(file)
+        if not ctx.channel.id in data: return await ctx.response.send_message(content="**Error: not a rental/ticket channel.** If you think this is an error, please open a general ticket.", ephemeral=True)
     if status.name == data[f"{ctx.channel_id}"]["is_active"]: return await ctx.response.send_message(content=f"Rental is already marked as {status.name.lower()}.", ephemeral=True)
     global_variables.update_specific_data(rentalsPath, status.name, str(ctx.channel_id), "is_active")
     await ctx.response.send_message(content=f'Marked the rental as {status.name}', ephemeral=True)
@@ -268,8 +288,8 @@ async def claimrental(ctx):
     crdb=True
     with open(rentalsPath, "r") as file:
         data = json.load(file)
-        if not ctx.channel_id in data: return await ctx.response.send_message(content="**Rental not found, if you think this is an error, open a general ticket.**", ephemeral=True)
-    if ctx.user.id == data[f"{ctx.channel_id}"]["employee_id"]: return await ctx.response.send_message(content=f"Rental is already claimed by {ctx.user.name}.", ephemeral=True)
+        if not ctx.channel_id in data: return await ctx.response.send_message(content="**Error: not a rental channel.** If you think this is an error, please open a general ticket.", ephemeral=True)
+    if ctx.user.id == data[f"{ctx.channel_id}"]["employee_id"]: return await ctx.response.send_message(content=f"Rental is already claimed by you.", ephemeral=True)
     global_variables.update_specific_data(rentalsPath, str(ctx.user.id), str(ctx.channel_id), "employee_id")
     await ctx.response.send_message(content=f"{ctx.user.name} is now handling this rental.")
     await asyncio.sleep(5)
@@ -282,7 +302,7 @@ async def claimticket(ctx):
     ctdb=True
     with open(ticketsPath, "r") as file:
         data = json.load(file)
-        if not str(ctx.channel_id) in data: return await ctx.response.send_message(content="**Ticket not found, if you think this is an error, open a general ticket.**", ephemeral=True)
+        if not str(ctx.channel_id) in data: return await ctx.response.send_message(content="**Error: not a ticket channel.** If you think this is an error, please open a general ticket.", ephemeral=True)
     if ctx.user.id == data[f"{ctx.channel_id}"]["employee_id"]: return await ctx.response.send_message(content="Rental is already claimed by you.", ephemeral=True)
     global_variables.update_specific_data(ticketsPath, str(ctx.user.id), str(ctx.channel_id), "employee_id")
     await ctx.response.send_message(content=f"{ctx.user.name} is now handling this ticket.")
@@ -301,13 +321,19 @@ async def scheduleclosing(ctx: discord.Interaction, time: app_commands.Choice[in
     with open(rentalsPath, "r") as ff:
         rentalsData = json.load(ff)
 
-    if str(ctx.channel_id) not in rentalsData and str(ctx.channel_id) not in ticketsData: return await ctx.response.send_message(content="**Error: not a ticket/rental channel.**", ephemeral=True)
+    if str(ctx.channel_id) not in rentalsData and str(ctx.channel_id) not in ticketsData: return await ctx.response.send_message(content="**Error: not a ticket/rental channel.** If you think this is an error, please open a general ticket.", ephemeral=True)
 
     await ctx.response.send_message(content=f'Channel closing in {time.name}.')
     logging.info(f'{ctx.channel_id} closing in {time.name}.')
     await asyncio.sleep(time.value)
     await ctx.channel.send(content='Closing channel, please wait...')
-    await transcript(ctx, "gen" if "gen" in ctx.channel.name else "mana")
+    type=""
+    if "gen" in ctx.channel.name:
+        type="gen"
+    elif "mana" in ctx.channel.name:
+        type="mana"
+    print(f"type: {type}, channel name: {ctx.channel.name}")
+    await transcript(ctx=ctx, type=type)
     await ctx.channel.delete()
     fp=ticketsPath if str(ctx.channel_id) in ticketsData else rentalsPath
     global_variables.delete_key(file_path=fp, key_to_remove=ctx.channel_id)
@@ -393,6 +419,7 @@ async def sync_erro(ctx, error):
     else:
         print(error_str)
         logging.error(error)
+
 # STARTS BOT
 my_console.start()
 bot.run(os.getenv("TOKEN"), reconnect=True)
