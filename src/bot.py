@@ -137,7 +137,7 @@ def ticket_general():
         v=View()
         v.add_item(channel_button)
         await interaction.response.send_message(view=v, ephemeral=True)
-        await channel.send(content='@her', embed=embeds.general_ticket_channel(interaction.user.name), view=ticket_close())
+        await channel.send(content='@here', embed=embeds.general_ticket_channel(interaction.user.name), view=ticket_close())
         global_variables.update_json_file("global_variables/openedTickets.json", {str(channel.id): {"creator_id": interaction.user.id, "employee_id": None, "type": "gen"}})
         await asyncio.sleep(5)
         gdb=False
