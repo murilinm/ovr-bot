@@ -214,10 +214,14 @@ async def on_command_error(ctx, error):
         return print(error_str)
     elif isinstance(error, commands.CommandOnCooldown):
         return await ctx.send(f"**Cooldown, please try again in {error.retry_after} seconds.**")
+    elif isinstance(error, commands.NotOwner):
+        msg = await ctx.message.reply("You do not own this bot.")
+        await ctx.message.delete(delay=2)
+        await msg.delete(delay=2)
     else:
         await ctx.send("**An unknown error occurred, please try again in some moments. If this message keeps showing, please open a general ticket in <#1274925768090320987>.**")
         logging.error(error)
-        return print(error_str, error.type)
+        return print(error_str, error)
 
 @bot.event
 async def on_app_command_error(interaction: discord.Interaction, error):
@@ -407,6 +411,12 @@ async def ors():
 async def ots():
     with open(ticketsPath, "r") as file:
         print(json.load(file))
+
+@my_console.command()
+async def clearlog():
+    with open("ovr-bot.log", "w") as f:
+        f.writelines([])
+        print("bot.py: Restart required.")
 
 @my_console.command()
 async def ping():
