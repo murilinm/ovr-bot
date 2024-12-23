@@ -237,7 +237,7 @@ async def on_app_command_error(interaction: discord.Interaction, error):
 # SERVER COMMANDS
 # - SLASH COMMANDS
 @bot.tree.command(name='openrental', description='Open a rental channel')
-@app_commands.describe(contact_info="Include your Roblox username and your roleplay name (Example: pizzaiolo7, Izzay).", people_in_house="How many people will be living in the house (numbers only).", renting_time="For how many time you will keep the house.", house_type="The house type.", preferred_location="Preffered location of the house (ex. Housing Suburbs) (optional).", pets_in_house="If there will be pets in the house or not.")
+@app_commands.describe(contact_info="Include your Roblox username and your roleplay name (if applicable).", people_in_house="How many people will be living in the house (numbers only).", renting_time="For how long you are going to rent the house.", house_type="The house type.", preferred_location="Preferred location of the house (optional).", pets_in_house="If there will be pets in the house or not.")
 @app_commands.choices(preferred_location=[app_commands.Choice(name="Housing Suburbs", value=1), app_commands.Choice(name="Farms", value=2), app_commands.Choice(name="Sheriff's Office", value=3), app_commands.Choice(name="Springfield", value=4), app_commands.Choice(name="High Rock Park", value=5)], house_type=[app_commands.Choice(name="Small house", value=1), app_commands.Choice(name="Medium house", value=2), app_commands.Choice(name="Large house", value=3), app_commands.Choice(name="Single trailer", value=4), app_commands.Choice(name="Double trailer", value=5), app_commands.Choice(name="Log cabin", value=6)], pets_in_house=[app_commands.Choice(name="Yes", value=1), app_commands.Choice(name="No", value=2), app_commands.Choice(name="Not sure", value=3)])
 async def openrental(ctx: discord.Interaction, contact_info: str, people_in_house: int, renting_time: str, house_type: app_commands.Choice[int], preferred_location: app_commands.Choice[int], pets_in_house: app_commands.Choice[int]):
     global ordb
@@ -266,7 +266,7 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
     
     await ctx.response.send_message(view=rental_channel(ctx.guild_id, channel.id), ephemeral=True)
     global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None, "guild_id": ctx.guild_id}},)
-    await channel.send(content='@here', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=rental_close())
+    await channel.send(content='here', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=rental_close())
     await asyncio.sleep(5)
     ordb=False
 
