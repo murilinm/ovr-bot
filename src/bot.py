@@ -266,7 +266,7 @@ async def openrental(ctx: discord.Interaction, contact_info: str, people_in_hous
     
     await ctx.response.send_message(view=rental_channel(ctx.guild_id, channel.id), ephemeral=True)
     global_variables.update_json_file(rentalsPath, {channel.id: {"renter_id": user.id, "is_active": None, "employee_id": None, "guild_id": ctx.guild_id}},)
-    await channel.send(content='here', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=rental_close())
+    await channel.send(content='@here', embed=embeds.rental_channel(ctx.user, contact_info, people_in_house, renting_time, house_type.name, pets_in_house.name), view=rental_close())
     await asyncio.sleep(5)
     ordb=False
 
@@ -288,30 +288,54 @@ async def markas(ctx: discord.Interaction, status: app_commands.Choice[int]):
 @bot.tree.command(name="claimrental", description="Claim this rental (meaning you will handle the rental).")
 async def claimrental(ctx):
     global crdb
-    if crdb: return await ctx.response.send_message("Cooldown, please try again in 10 seconds.", ephemeral=True)
-    crdb=True
+    if crdb:
+        return await ctx.response.send_message("Cooldown, please try again in 10 seconds.", ephemeral=True)
+    
+    crdb = True
     with open(rentalsPath, "r") as file:
         data = json.load(file)
-        if not ctx.channel_id in data: return await ctx.response.send_message(content="**Error: not a rental channel.** If you think this is an error, please open a general ticket.", ephemeral=True)
-    if ctx.user.id == data[f"{ctx.channel_id}"]["employee_id"]: return await ctx.response.send_message(content=f"Rental is already claimed by you.", ephemeral=True)
-    global_variables.update_specific_data(rentalsPath, str(ctx.user.id), str(ctx.channel_id), "employee_id")
+        rental_data = data.get(f"{ctx.channel.id}")
+        if not rental_data:
+            await asyncio.sleep(2)
+            crdb = False
+            return await ctx.response.send_message(content="**Error: not a rental channel.** If you think this is an error, please open a general ticket.", ephemeral=True)
+
+        if str(ctx.user.id) == str(rental_data.get("employee_id", "")):
+            crdb = False
+            return await ctx.response.send_message(content=f"Rental is already claimed by you.", ephemeral=True)
+
+    global_variables.update_specific_data(rentalsPath, str(ctx.user.id), str(ctx.channel.id), "employee_id") 
     await ctx.response.send_message(content=f"{ctx.user.name} is now handling this rental.")
     await asyncio.sleep(5)
-    crdb=False
+    crdb = False
 
 @bot.tree.command(name="claimticket", description="Claim this ticket (meaning you will handle this ticket).")
 async def claimticket(ctx):
     global ctdb
     if ctdb: return await ctx.response.send_message("Cooldown, please try again in 10 seconds.", ephemeral=True)
     ctdb=True
-    with open(ticketsPath, "r") as file:
-        data = json.load(file)
-        if not str(ctx.channel_id) in data: return await ctx.response.send_message(content="**Error: not a ticket channel.** If you think this is an error, please open a general ticket.", ephemeral=True)
-    if ctx.user.id == data[f"{ctx.channel_id}"]["employee_id"]: return await ctx.response.send_message(content="Rental is already claimed by you.", ephemeral=True)
-    global_variables.update_specific_data(ticketsPath, str(ctx.user.id), str(ctx.channel_id), "employee_id")
-    await ctx.response.send_message(content=f"{ctx.user.name} is now handling this ticket.")
-    await asyncio.sleep(5)
-    ctdb=False
+    try:
+        with open(ticketsPath, "r") as file:
+            data = json.load(file)
+
+        ticket_data = data.get(str(ctx.channel.id))
+        if not ticket_data:
+            ctdb = False
+            return await ctx.response.send_message(content="**Error: not a ticket channel.** If you think this is an error, please open a general ticket.", ephemeral=True)
+
+        if str(ctx.user.id) == str(ticket_data.get("employee_id", "")):
+            ctdb = False
+            return await ctx.response.send_message(content="Ticket is already claimed by you.", ephemeral=True)
+        global_variables.update_specific_data(ticketsPath, str(ctx.user.id), str(ctx.channel.id), "employee_id")
+        await ctx.response.send_message(content=f"{ctx.user.name} is now handling this ticket.")
+    
+    except Exception as e:
+        await ctx.response.send_message(content=f"An error occurred: {e}", ephemeral=True)
+
+    finally:
+        await asyncio.sleep(5)
+        ctdb=False
+
 
 @bot.tree.command(name='scheduleclosing', description='Schedule a time for this rental/ticket to close.')
 @app_commands.choices(time=[app_commands.Choice(name='1 minute', value=60), app_commands.Choice(name='5 minutes', value=300), app_commands.Choice(name='10 minutes', value=600), app_commands.Choice(name='15 minutes', value=900), app_commands.Choice(name='30 minutes', value=1800)])
